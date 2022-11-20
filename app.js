@@ -8,8 +8,9 @@ const path = require("path");
 
 const bodyParser = require("body-parser");
 
-const User = require("./src/models/user");
 const Card = require("./src/models/card");
+
+const routes = require('./src/routes/users');
 
 const app = express();
 
@@ -34,32 +35,7 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
-
-// возвращает всех пользователей
-app.get("/users", (req, res) => {
-  console.log(req.user);
-  User.find()
-    .then(users => res.send({ data: users }))
-    .catch(err => res.status(500).send({ message: "Произошла ошибка!" }));
-  console.log("GET-запрос отработал!");
-});
-
-// возвращает пользователя по _id
-app.get("/users/:userId", (req, res) => {
-  User.findById(req.params.userId)
-    .then(user => res.send({data: user}))
-    .catch(err => res.status(500).send({ message: "Произошла ошибка!" }));
-  console.log("GET-запрос :userId отработал!");
-});
-
-// создаёт пользователя
-app.post("/users", (req, res) => {
-  const { name, about, avatar } = req.body;
-  User.create({ name, about, avatar })
-    .then((user) => res.send({ data: user }))
-    .catch((err) => res.status(500).send({ message: "Произошла ошибка!" }));
-  console.log("POST-запрос отработал!");
-});
+app.use('/', routes);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
