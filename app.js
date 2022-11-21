@@ -9,9 +9,7 @@ const app = express();
 
 mongoose.connect(
   "mongodb://localhost:27017/mestodb",
-  {
-    useNewUrlParser: true,
-  },
+  { useNewUrlParser: true },
   (err) => {
     if (err) throw err;
     console.log("Connected to MongoDB!");
@@ -26,7 +24,6 @@ app.use((req, res, next) => {
 
   next();
 });
-
 app.use(bodyParser.json());
 app.use("/", userRoutes);
 app.use("/", cardRoutes);

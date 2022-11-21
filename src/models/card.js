@@ -11,7 +11,7 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // 637a73f1aa4c15b86afe1d74
+  // // TODO: временное решение авторизации 637a73f1aa4c15b86afe1d74
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",

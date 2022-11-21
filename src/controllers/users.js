@@ -2,7 +2,9 @@ const User = require("../models/user");
 
 const getUsers = (req, res) => {
   User.find()
-    .then((users) => res.send({ message: "Все пользователи получены", data: users }))
+    .then((users) =>
+      res.send({ message: "Все пользователи получены", data: users })
+    )
     .catch(() => res.status(500).send({ message: "Произошла ошибка!" }));
 };
 
@@ -21,15 +23,22 @@ const createUser = (req, res) => {
 
 const undateProfile = (req, res) => {
   const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, {name: name, about: about})
-    .then((user) => res.send({ message: "Пользователь обновлен, ниже старые данные", data: user }))
+  User.findByIdAndUpdate(req.user._id, { name: name, about: about })
+    .then((user) =>
+      res.send({
+        message: "Пользователь обновлен, ниже старые данные",
+        data: user,
+      })
+    )
     .catch(() => res.status(500).send({ message: "Произошла ошибка!" }));
 };
 
 const undateAvatar = (req, res) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar: avatar })
-    .then((user) => res.send({ message: "Аватар обновлен, ниже старые данные", data: user }))
+    .then((user) =>
+      res.send({ message: "Аватар обновлен, ниже старые данные", data: user })
+    )
     .catch(() => res.status(500).send({ message: "Произошла ошибка!" }));
 };
 
