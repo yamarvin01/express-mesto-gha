@@ -19,13 +19,24 @@ const createUser = (req, res) => {
     .catch(() => res.status(500).send({ message: "Произошла ошибка!" }));
 };
 
-const updateUser = (req, res) => {
+const undateProfile = (req, res) => {
+  const { name, about } = req.body;
+  User.findByIdAndUpdate(req.user._id, {name: name, about: about})
+    .then((user) => res.send({ message: "Пользователь обновлен, ниже старые данные", data: user }))
+    .catch(() => res.status(500).send({ message: "Произошла ошибка!" }));
+};
 
-}
+const undateAvatar = (req, res) => {
+  const { avatar } = req.body;
+  User.findByIdAndUpdate(req.user._id, { avatar: avatar })
+    .then((user) => res.send({ message: "Аватар обновлен, ниже старые данные", data: user }))
+    .catch(() => res.status(500).send({ message: "Произошла ошибка!" }));
+};
 
 module.exports = {
   getUsers,
   getUserById,
   createUser,
-  updateUser
+  undateProfile,
+  undateAvatar,
 };
