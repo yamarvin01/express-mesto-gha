@@ -20,8 +20,13 @@ const deleteCardById = (req, res) => {
     .catch(() => res.send(500).send({ message: "Произошла ошибка!" }));
 };
 
+const addCardLike = () => {
+  console.log(1);
+}
+
 module.exports = {
   getCards,
   createCard,
   deleteCardById,
+  addCardLike,
 };
