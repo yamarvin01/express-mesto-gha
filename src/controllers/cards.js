@@ -21,6 +21,7 @@ const deleteCardById = (req, res) => {
     .catch(() => res.send(500).send({ message: "Произошла ошибка!" }));
 };
 
+// $addToSet, чтобы добавить элемент в массив, если его там ещё нет;
 const addCardLikeById = (req, res) => {
   const userId = req.user._id;
   const cardId = req.params.cardId;
@@ -29,11 +30,12 @@ const addCardLikeById = (req, res) => {
     .catch(() => res.send(500).send({ message: "Произошла ошибка!" }));
 }
 
+// $pull, чтобы убрать
 const deleteCardLikeById = (req, res) => {
   const userId = req.user._id;
   const cardId = req.params.cardId;
-  Card.findByIdAndRemove(cardId, { $pull: { likes: userId } }, { new: true } )
-    .then(card => res.send({ message: "Карточке добавлен лайк, ниже старые данные", data: card }))
+  Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true } )
+    .then(card => res.send({ message: "У карточки удален лайк, ниже старые данные", data: card }))
     .catch(() => res.send(500).send({ message: "Произошла ошибка!" }));
 }
 
