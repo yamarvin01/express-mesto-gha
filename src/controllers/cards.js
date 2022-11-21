@@ -15,18 +15,23 @@ const createCard = (req, res) => {
 };
 
 const deleteCardById = (req, res) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  const cardId = req.params.cardId;
+  Card.findByIdAndRemove(cardId)
     .then((card) => res.send({ message: "Карточка удалена", data: card }))
     .catch(() => res.send(500).send({ message: "Произошла ошибка!" }));
 };
 
-const addCardLike = () => {
-  console.log(1);
+const addCardLikeById = (req, res) => {
+  const userId = req.user._id;
+  const cardId = req.params.cardId;
+  Card.findByIdAndUpdate(cardId, { likes: userId })
+    .then(card => res.send({ message: "Карточке добавлен лайк, ниже старые данные", data: card }))
+    .catch(() => res.send(500).send({ message: "Произошла ошибка!" }));
 }
 
 module.exports = {
   getCards,
   createCard,
   deleteCardById,
-  addCardLike,
+  addCardLikeById,
 };
