@@ -1,17 +1,9 @@
 const User = require("../models/user");
 const {
   ERROR_CODE_VALIDATION,
-  ERROR_CODE_NOTFOUND,
   ERROR_CODE_DEFAULT,
+  NotFoundError,
 } = require("../constants/constants");
-
-class NotFoundError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "NotFoundError";
-    this.statusCode = ERROR_CODE_NOTFOUND;
-  }
-}
 
 const setValidationError = (res, err) => {
   res

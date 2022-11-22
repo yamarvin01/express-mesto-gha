@@ -3,12 +3,13 @@ const {
   ERROR_CODE_VALIDATION,
   ERROR_CODE_NOTFOUND,
   ERROR_CODE_DEFAULT,
+  NotFoundError,
 } = require("../constants/constants");
 
 const setNotFoundError = (res, err) => {
   return res
-    .status(ERROR_CODE_NOTFOUND)
-    .send({ message: `Карта не найдена: ${err.message}` });
+    .status(err.statusCode)
+    .send({ message: `${err.message}` });
 };
 
 const setDefaultError = (res) => {
@@ -41,10 +42,18 @@ const createCard = (req, res) => {
 const deleteCardById = (req, res) => {
   const cardId = req.params.cardId;
   Card.findByIdAndRemove(cardId)
+    .orFail(() => {
+      throw new NotFoundError('Запрашиваемая карта не найдена');
+    })
     .then((card) => res.send({ card }))
     .catch((err) => {
-      if (err.name === "CastError") {
+      if (err.name === "NotFoundError" ) {
         return setNotFoundError(res, err);
+      }
+      if (err.name === "CastError") {
+        return res
+          .status(ERROR_CODE_NOTFOUND)
+          .send({ message: `Запрашиваемая карта не найдена` });
       }
       return setDefaultError(res);
     });
@@ -58,10 +67,18 @@ const addCardLikeById = (req, res) => {
     { $addToSet: { likes: userId } },
     { new: true }
   )
+    .orFail(() => {
+      throw new NotFoundError('Запрашиваемая карта не найдена');
+    })
     .then((card) => res.send({ card }))
     .catch((err) => {
-      if (err.name === "CastError") {
+      if (err.name === "NotFoundError" ) {
         return setNotFoundError(res, err);
+      }
+      if (err.name === "CastError") {
+        return res
+          .status(ERROR_CODE_NOTFOUND)
+          .send({ message: `Запрашиваемая карта не найдена` });
       }
       return setDefaultError(res);
     });
@@ -71,10 +88,18 @@ const deleteCardLikeById = (req, res) => {
   const userId = req.user._id;
   const cardId = req.params.cardId;
   Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true })
+    .orFail(() => {
+      throw new NotFoundError('Запрашиваемая карта не найдена');
+    })
     .then((card) => res.send({ card }))
     .catch((err) => {
-      if (err.name === "CastError") {
+      if (err.name === "NotFoundError" ) {
         return setNotFoundError(res, err);
+      }
+      if (err.name === "CastError") {
+        return res
+          .status(ERROR_CODE_NOTFOUND)
+          .send({ message: `Запрашиваемая карта не найдена` });
       }
       return setDefaultError(res);
     });
