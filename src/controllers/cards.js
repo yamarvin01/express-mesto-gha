@@ -4,14 +4,20 @@ const ERROR_CODE_VALIDATION = 400;
 const ERROR_CODE_NOTFOUND = 404;
 const ERROR_CODE_DEFAULT = 500;
 
-const returnDefaultError = (res) => {
+const setNotFoundError = (res, err) => {
+  return res
+    .status(ERROR_CODE_NOTFOUND)
+    .send({ message: `Карта не найдена: ${err.message}` });
+};
+
+const setDefaultError = (res) => {
   return res.status(ERROR_CODE_DEFAULT).send({ message: "Произошла ошибка" });
 };
 
 const getCards = (req, res) => {
   Card.find()
     .then((cards) => res.send({ cards }))
-    .catch(() => returnDefaultError(res));
+    .catch(() => setDefaultError(res));
 };
 
 const createCard = (req, res) => {
@@ -25,7 +31,7 @@ const createCard = (req, res) => {
           .status(ERROR_CODE_VALIDATION)
           .send({ message: `Переданы некорректные данные: ${err.message}` });
       }
-      return returnDefaultError(res);
+      return setDefaultError(res);
     });
 };
 
@@ -35,11 +41,9 @@ const deleteCardById = (req, res) => {
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === "CastError") {
-        return res
-          .status(ERROR_CODE_NOTFOUND)
-          .send({ message: `Карта не найдена: ${err.message}` });
+        return setNotFoundError(res, err);
       }
-      return returnDefaultError(res);
+      return setDefaultError(res);
     });
 };
 
@@ -54,11 +58,9 @@ const addCardLikeById = (req, res) => {
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === "CastError") {
-        return res
-          .status(ERROR_CODE_NOTFOUND)
-          .send({ message: `Карта не найдена: ${err.message}` });
+        return setNotFoundError(res, err);
       }
-      return returnDefaultError(res);
+      return setDefaultError(res);
     });
 };
 
@@ -69,11 +71,9 @@ const deleteCardLikeById = (req, res) => {
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === "CastError") {
-        return res
-          .status(ERROR_CODE_NOTFOUND)
-          .send({ message: `Карта не найдена: ${err.message}` });
+        return setNotFoundError(res, err);
       }
-      return returnDefaultError(res);
+      return setDefaultError(res);
     });
 };
 
