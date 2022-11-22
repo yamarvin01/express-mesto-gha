@@ -29,6 +29,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", userRoutes);
 app.use("/", cardRoutes);
+app.use((req, res) => {
+  res.status(404).send({ message: 'Страница по указанному маршруту не найдена' });
+});
 
 process.on('uncaughtException', (err, origin) => {
   console.log(`${origin} ${err.name} с текстов ${err.message} не была обработана!`);
