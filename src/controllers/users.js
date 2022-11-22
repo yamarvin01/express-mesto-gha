@@ -1,13 +1,13 @@
 const User = require("../models/user");
 
 const ERROR_CODE_VALIDATION = 400;
-const ERROR_CODE_NOFFOUND = 404;
+const ERROR_CODE_NOTFOUND = 404;
 const ERROR_CODE_DEFAULT = 500;
 
-const setValidationError = (res) => {
+const setValidationError = (res, err) => {
   res
     .status(ERROR_CODE_VALIDATION)
-    .send({ message: `Переданы некорректные данные` });
+    .send({ message: `Переданы некорректные данные: ${err.message}` });
 };
 
 const setDefaultError = (res) => {
@@ -25,7 +25,7 @@ const getUserById = (req, res) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === "CastError") {
-        return res.status(ERROR_CODE_NOFFOUND).send({
+        return res.status(ERROR_CODE_VALIDATION).send({
           message: `Запрашиваемый пользователь не найден: ${err.message}`,
         });
       }
