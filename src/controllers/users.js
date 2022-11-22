@@ -4,10 +4,10 @@ const ERROR_CODE_VALIDATION = 400;
 const ERROR_CODE_NOFFOUND = 404;
 const ERROR_CODE_DEFAULT = 500;
 
-const setValidationError = (res, err) => {
+const setValidationError = (res) => {
   res
     .status(ERROR_CODE_VALIDATION)
-    .send({ message: `Переданы некорректные данные: ${err.message}` });
+    .send({ message: `Переданы некорректные данные` });
 };
 
 const setDefaultError = (res) => {
