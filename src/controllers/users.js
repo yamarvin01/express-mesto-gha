@@ -6,7 +6,7 @@ const {
 } = require("../constants/constants");
 
 const setNotFoundError = (res, err) => {
-  res
+  return res
     .status(err.statusCode)
     .send({ message: `${err.message}` });
 };
