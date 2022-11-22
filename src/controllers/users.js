@@ -4,14 +4,20 @@ const ERROR_CODE_VALIDATION = 400;
 const ERROR_CODE_NOFFOUND = 404;
 const ERROR_CODE_DEFAULT = 500;
 
-const returnDefaultError = (res) => {
+const setValidationError = (res, err) => {
+  res
+    .status(ERROR_CODE_VALIDATION)
+    .send({ message: `Переданы некорректные данные: ${err.message}` });
+};
+
+const setDefaultError = (res) => {
   return res.status(ERROR_CODE_DEFAULT).send({ message: "Произошла ошибка" });
 };
 
 const getUsers = (req, res) => {
   User.find()
     .then((users) => res.send({ users }))
-    .catch(() => returnDefaultError(res));
+    .catch(() => setDefaultError(res));
 };
 
 const getUserById = (req, res) => {
@@ -19,11 +25,11 @@ const getUserById = (req, res) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === "CastError") {
-        return res
-          .status(ERROR_CODE_NOFFOUND)
-          .send({ message: `Запрашиваемый пользователь не найден: ${err.message}` });
+        return res.status(ERROR_CODE_NOFFOUND).send({
+          message: `Запрашиваемый пользователь не найден: ${err.message}`,
+        });
       }
-      return returnDefaultError(res);
+      return setDefaultError(res);
     });
 };
 
@@ -33,11 +39,9 @@ const createUser = (req, res) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        return res
-          .status(ERROR_CODE_VALIDATION)
-          .send({ message: `Переданы некорректные данные: ${err.message}` });
+        return setValidationError(res, err);
       }
-      return returnDefaultError(res);
+      return setDefaultError(res);
     });
 };
 
@@ -52,11 +56,9 @@ const undateProfile = (req, res) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        return res
-          .status(ERROR_CODE_NOFFOUND)
-          .send({ message: `Переданы некорректные данные: ${err.message}` });
+        return setValidationError(res, err);
       }
-      return returnDefaultError(res);
+      return setDefaultError(res);
     });
 };
 
@@ -70,11 +72,9 @@ const undateAvatar = (req, res) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        return res
-          .status(ERROR_CODE_NOFFOUND)
-          .send({ message: `Переданы некорректные данные: ${err.message}` });
+        return setValidationError(res, err);
       }
-      return returnDefaultError(res);
+      return setDefaultError(res);
     });
 };
 
