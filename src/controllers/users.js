@@ -10,6 +10,12 @@ const setValidationError = (res, err) => {
     .send({ message: `Переданы некорректные данные: ${err.message}` });
 };
 
+const setNotFoundError = (res, err) => {
+  res
+    .status(ERROR_CODE_NOTFOUND)
+    .send({ message: `Пользователь не найден: ${err.message}` });
+};
+
 const setDefaultError = (res) => {
   return res.status(ERROR_CODE_DEFAULT).send({ message: "Произошла ошибка" });
 };
@@ -25,9 +31,10 @@ const getUserById = (req, res) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === "CastError") {
-        return res.status(ERROR_CODE_VALIDATION).send({
-          message: `Запрашиваемый пользователь не найден: ${err.message}`,
-        });
+        return setValidationError(res, err);
+      }
+      if (err.name === "AssertionError") {
+        return setNotFoundError(res, err);
       }
       return setDefaultError(res);
     });
