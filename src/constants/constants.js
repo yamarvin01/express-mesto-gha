@@ -29,9 +29,6 @@ const setDefaultError = (res) => {
 };
 
 module.exports = {
-  ERROR_CODE_VALIDATION,
-  ERROR_CODE_NOTFOUND,
-  ERROR_CODE_DEFAULT,
   NotFoundError,
   setNotFoundError,
   setValidationError,
