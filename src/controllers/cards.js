@@ -1,20 +1,14 @@
 const Card = require("../models/card");
 const {
   ERROR_CODE_VALIDATION,
-  ERROR_CODE_DEFAULT,
   NotFoundError,
+  setDefaultError,
 } = require("../constants/constants");
 
 const setNotFoundError = (res, err) => {
   return res
     .status(err.statusCode)
     .send({ message: `${err.message}` });
-};
-
-const setDefaultError = (res) => {
-  return res
-    .status(ERROR_CODE_DEFAULT)
-    .send({ message: "Произошла ошибка" });
 };
 
 const getCards = (req, res) => {

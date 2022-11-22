@@ -1,8 +1,8 @@
 const User = require("../models/user");
 const {
   ERROR_CODE_VALIDATION,
-  ERROR_CODE_DEFAULT,
   NotFoundError,
+  setDefaultError
 } = require("../constants/constants");
 
 const setValidationError = (res, err) => {
@@ -15,12 +15,6 @@ const setNotFoundError = (res, err) => {
   res
     .status(err.statusCode)
     .send({ message: `${err.message}` });
-};
-
-const setDefaultError = (res) => {
-  return res
-    .status(ERROR_CODE_DEFAULT)
-    .send({ message: "Произошла ошибка" });
 };
 
 const getUsers = (req, res) => {

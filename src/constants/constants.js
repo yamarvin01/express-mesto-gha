@@ -10,9 +10,16 @@ class NotFoundError extends Error {
   }
 }
 
+const setDefaultError = (res) => {
+  return res
+    .status(ERROR_CODE_DEFAULT)
+    .send({ message: "Произошла ошибка" });
+};
+
 module.exports = {
   ERROR_CODE_VALIDATION,
   ERROR_CODE_NOTFOUND,
   ERROR_CODE_DEFAULT,
   NotFoundError,
+  setDefaultError,
 };
