@@ -1,9 +1,17 @@
 const User = require("../models/user");
 
+const ERROR_CODE_VALIDATION = 400;
+const ERROR_CODE_NOFFOUND = 404;
+const ERROR_CODE_DEFAULT = 500;
+
+const returnDefaultError = (res) => {
+  return res.status(ERROR_CODE_DEFAULT).send({ message: "Произошла ошибка" });
+};
+
 const getUsers = (req, res) => {
   User.find()
     .then((users) => res.send({ users }))
-    .catch(() => res.status(500).send({ message: "Произошла ошибка!" }));
+    .catch(() => returnDefaultError(res));
 };
 
 const getUserById = (req, res) => {
@@ -12,10 +20,10 @@ const getUserById = (req, res) => {
     .catch((err) => {
       if (err.name === "CastError") {
         return res
-          .status(404)
-          .send({ message: "Запрашиваемый пользователь не найден" });
+          .status(ERROR_CODE_NOFFOUND)
+          .send({ message: `Запрашиваемый пользователь не найден: ${err.message}` });
       }
-      return res.status(500).send({ message: "Произошла ошибка!" });
+      return returnDefaultError(res);
     });
 };
 
@@ -26,10 +34,10 @@ const createUser = (req, res) => {
     .catch((err) => {
       if (err.name === "ValidationError") {
         return res
-          .status(400)
+          .status(ERROR_CODE_VALIDATION)
           .send({ message: `Переданы некорректные данные: ${err.message}` });
       }
-      res.status(500).send({ message: "Произошла ошибка!" });
+      return returnDefaultError(res);
     });
 };
 
@@ -44,15 +52,16 @@ const undateProfile = (req, res) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        return res.status(404).send({ message: `Переданы некорректные данные: ${err.message}` });
+        return res
+          .status(ERROR_CODE_NOFFOUND)
+          .send({ message: `Переданы некорректные данные: ${err.message}` });
       }
-      return res.status(500).send({ message: "Произошла ошибка!" });
+      return returnDefaultError(res);
     });
 };
 
 const undateAvatar = (req, res) => {
   const { avatar } = req.body;
-  console.log(avatar);
   User.findByIdAndUpdate(
     req.user._id,
     { avatar: avatar },
@@ -60,11 +69,12 @@ const undateAvatar = (req, res) => {
   )
     .then((user) => res.send({ user }))
     .catch((err) => {
-      console.log(`ОШИБКА ${err.name}`);
       if (err.name === "ValidationError") {
-        return res.status(404).send({ message: `Переданы некорректные данные: ${err.message}` });
+        return res
+          .status(ERROR_CODE_NOFFOUND)
+          .send({ message: `Переданы некорректные данные: ${err.message}` });
       }
-      return res.status(500).send({ message: "Произошла ошибка!" });
+      return returnDefaultError(res);
     });
 };
 
