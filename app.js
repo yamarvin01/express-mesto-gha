@@ -1,6 +1,7 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const mongoose = require("mongoose");
+// eslint-disable-next-line no-undef
 const { PORT = 3000 } = process.env;
 const cardRoutes = require("./src/routes/cards");
 const userRoutes = require("./src/routes/users");
