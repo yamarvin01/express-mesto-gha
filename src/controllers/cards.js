@@ -13,7 +13,7 @@ const createCard = (req, res) => {
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        return res.status(400).send({ message: `${err.message}` });
+        return res.status(400).send({ message: `Переданы некорректные данные: ${err.message}` });
       }
       return res.status(500).send({ message: "Произошла ошибка!" });
     });
@@ -24,8 +24,9 @@ const deleteCardById = (req, res) => {
   Card.findByIdAndRemove(cardId)
     .then((card) => res.send({ card }))
     .catch((err) => {
+      console.log(err.message);
       if (err.name === "CastError") {
-        return res.status(404).send({ message: `${err.message}` });
+        return res.status(404).send({ message: `Карта не найдена: ${err.message}` });
       }
       return res.status(500).send({ message: "Произошла ошибка!" });
     });
@@ -42,7 +43,7 @@ const addCardLikeById = (req, res) => {
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === "CastError") {
-        return res.status(404).send({ message: `${err.message}` });
+        return res.status(404).send({ message: `Карта не найдена: ${err.message}` });
       }
       return res.status(500).send({ message: "Произошла ошибка!" });
     });
@@ -55,7 +56,7 @@ const deleteCardLikeById = (req, res) => {
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === "CastError") {
-        return res.status(404).send({ message: `${err.message}` });
+        return res.status(404).send({ message: `Карта не найдена: ${err.message}` });
       }
       return res.status(500).send({ message: "Произошла ошибка!" });
     });

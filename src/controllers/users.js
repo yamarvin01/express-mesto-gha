@@ -27,7 +27,7 @@ const createUser = (req, res) => {
       if (err.name === "ValidationError") {
         return res
           .status(400)
-          .send({ message: "Переданы некорректные данные" });
+          .send({ message: `Переданы некорректные данные: ${err.message}` });
       }
       res.status(500).send({ message: "Произошла ошибка!" });
     });
@@ -35,15 +35,16 @@ const createUser = (req, res) => {
 
 const undateProfile = (req, res) => {
   const { name, about } = req.body;
+  const userId = req.user._id;
   User.findByIdAndUpdate(
-    req.user._id,
+    userId,
     { name: name, about: about },
     { runValidators: true }
   )
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        return res.status(400).send({ message: `${err.message}` });
+        return res.status(404).send({ message: `Переданы некорректные данные: ${err.message}` });
       }
       return res.status(500).send({ message: "Произошла ошибка!" });
     });
@@ -61,7 +62,7 @@ const undateAvatar = (req, res) => {
     .catch((err) => {
       console.log(`ОШИБКА ${err.name}`);
       if (err.name === "ValidationError") {
-        return res.status(400).send({ message: `${err.message}` });
+        return res.status(404).send({ message: `Переданы некорректные данные: ${err.message}` });
       }
       return res.status(500).send({ message: "Произошла ошибка!" });
     });
