@@ -1,7 +1,6 @@
 const Card = require("../models/card");
 const {
   ERROR_CODE_VALIDATION,
-  ERROR_CODE_NOTFOUND,
   ERROR_CODE_DEFAULT,
   NotFoundError,
 } = require("../constants/constants");
