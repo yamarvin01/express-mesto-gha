@@ -26,6 +26,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", userRoutes);
 app.use("/", cardRoutes);
 
