@@ -4,6 +4,14 @@ const ERROR_CODE_VALIDATION = 400;
 const ERROR_CODE_NOTFOUND = 404;
 const ERROR_CODE_DEFAULT = 500;
 
+class NotFoundError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "NotFoundError";
+    this.statusCode = 404;
+  }
+}
+
 const setValidationError = (res, err) => {
   res
     .status(ERROR_CODE_VALIDATION)
@@ -31,9 +39,11 @@ const getUserById = (req, res) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === "CastError") {
+        console.log(`Ошибка: ${err.name}`);
         return setValidationError(res, err);
       }
       if (err.name === "AssertionError") {
+        console.log(`Ошибка 2: ${err.name}`);
         return setNotFoundError(res, err);
       }
       return setDefaultError(res);
@@ -60,6 +70,11 @@ const undateProfile = (req, res) => {
     { name: name, about: about },
     { new: true, runValidators: true }
   )
+    //
+    .orFail(() => {
+      throw new NotFoundError('Запрашиваемый пользователь не найден');
+    })
+    //
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -92,3 +107,19 @@ module.exports = {
   undateProfile,
   undateAvatar,
 };
+
+
+// User.findByIdAndUpdate(
+//   req.user._id,
+//   { name, about },
+//   {
+//     new: true,
+//     runValidators: true,
+//     upsert: false,
+//   },
+// )
+//   .orFail(() => {
+//     throw new NotFoundError('Запрашиваемый пользователь не найден');
+//   })
+//   .then((user) => res.send({ data: user }))
+
