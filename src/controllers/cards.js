@@ -22,12 +22,12 @@ const createCard = (req, res) => {
 const deleteCardById = (req, res) => {
   const cardId = req.params.cardId;
   Card.findByIdAndRemove(cardId)
-    .then((card) => res.send({ message: "Карточка удалена", data: card }))
+    .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === "CastError") {
-        return res.status(404).send({message: `${err.message}`});
+        return res.status(404).send({ message: `${err.message}` });
       }
-      return res.status(500).send({ message: "Произошла ошибка!" })
+      return res.status(500).send({ message: "Произошла ошибка!" });
     });
 };
 
@@ -59,7 +59,7 @@ const deleteCardLikeById = (req, res) => {
       if (err.name === "CastError") {
         return res.status(404).send({ message: `${err.message}` });
       }
-      return res.status(500).send({ message: "Произошла ошибка!" })
+      return res.status(500).send({ message: "Произошла ошибка!" });
     });
 };
 

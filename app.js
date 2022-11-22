@@ -29,10 +29,10 @@ app.use(bodyParser.json());
 app.use("/", userRoutes);
 app.use("/", cardRoutes);
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
+process.on('uncaughtException', (err, origin) => {
+  console.log(`${origin} ${err.name} с текстов ${err.message} не была обработана!`);
 });
 
-process.on('uncaughtException', (err, origin) => {
-  console.log(`${origin} ${err.name} с текстов ${err.message} не была обработана`);
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
 });
