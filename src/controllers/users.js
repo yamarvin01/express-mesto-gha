@@ -1,8 +1,9 @@
 const User = require("../models/user");
-
-const ERROR_CODE_VALIDATION = 400;
-const ERROR_CODE_NOTFOUND = 404;
-const ERROR_CODE_DEFAULT = 500;
+const {
+  ERROR_CODE_VALIDATION,
+  ERROR_CODE_NOTFOUND,
+  ERROR_CODE_DEFAULT,
+} = require("../constants/constants");
 
 class NotFoundError extends Error {
   constructor(message) {
@@ -20,12 +21,14 @@ const setValidationError = (res, err) => {
 
 const setNotFoundError = (res, err) => {
   res
-    .status(ERROR_CODE_NOTFOUND)
+    .status(err.statusCode)
     .send({ message: `${err.message}` });
 };
 
 const setDefaultError = (res) => {
-  return res.status(ERROR_CODE_DEFAULT).send({ message: "Произошла ошибка" });
+  return res
+    .status(ERROR_CODE_DEFAULT)
+    .send({ message: "Произошла ошибка" });
 };
 
 const getUsers = (req, res) => {
@@ -103,19 +106,3 @@ module.exports = {
   undateProfile,
   undateAvatar,
 };
-
-
-// User.findByIdAndUpdate(
-//   req.user._id,
-//   { name, about },
-//   {
-//     new: true,
-//     runValidators: true,
-//     upsert: false,
-//   },
-// )
-//   .orFail(() => {
-//     throw new NotFoundError('Запрашиваемый пользователь не найден');
-//   })
-//   .then((user) => res.send({ data: user }))
-
