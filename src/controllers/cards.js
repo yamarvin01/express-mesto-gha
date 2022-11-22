@@ -1,6 +1,5 @@
 const Card = require("../models/card");
 const {
-  ERROR_CODE_VALIDATION,
   NotFoundError,
   setValidationError,
   setDefaultError,
@@ -43,9 +42,7 @@ const deleteCardById = (req, res) => {
         return setNotFoundError(res, err);
       }
       if (err.name === "CastError") {
-        return res
-          .status(ERROR_CODE_VALIDATION)
-          .send({ message: `Переданы не корректные данные карты` });
+        return setValidationError(res, err);
       }
       return setDefaultError(res);
     });
@@ -68,9 +65,7 @@ const addCardLikeById = (req, res) => {
         return setNotFoundError(res, err);
       }
       if (err.name === "CastError") {
-        return res
-          .status(ERROR_CODE_VALIDATION)
-          .send({ message: `Переданы не корректные данные карты` });
+        return setValidationError(res, err);
       }
       return setDefaultError(res);
     });
@@ -89,9 +84,7 @@ const deleteCardLikeById = (req, res) => {
         return setNotFoundError(res, err);
       }
       if (err.name === "CastError") {
-        return res
-          .status(ERROR_CODE_VALIDATION)
-          .send({ message: `Переданы не корректные данные карты` });
+        return setValidationError(res, err);
       }
       return setDefaultError(res);
     });
