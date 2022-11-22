@@ -1,15 +1,10 @@
 const Card = require("../models/card");
 const {
   NotFoundError,
+  setNotFoundError,
   setValidationError,
   setDefaultError,
 } = require("../constants/constants");
-
-const setNotFoundError = (res, err) => {
-  return res
-    .status(err.statusCode)
-    .send({ message: `${err.message}` });
-};
 
 const getCards = (req, res) => {
   Card.find()
