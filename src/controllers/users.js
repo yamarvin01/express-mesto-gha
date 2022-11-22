@@ -58,7 +58,7 @@ const undateProfile = (req, res) => {
   User.findByIdAndUpdate(
     userId,
     { name: name, about: about },
-    { runValidators: true }
+    { new: true, runValidators: true }
   )
     .then((user) => res.send({ user }))
     .catch((err) => {
@@ -74,7 +74,7 @@ const undateAvatar = (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
     { avatar: avatar },
-    { runValidators: true }
+    { new: true, runValidators: true }
   )
     .then((user) => res.send({ user }))
     .catch((err) => {
