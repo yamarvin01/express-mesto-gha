@@ -1,7 +1,7 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const mongoose = require("mongoose");
-// eslint-disable-next-line no-undef
+const process = require('process');
 const { PORT = 3000 } = process.env;
 const cardRoutes = require("./src/routes/cards");
 const userRoutes = require("./src/routes/users");
@@ -32,3 +32,8 @@ app.use("/", cardRoutes);
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
+
+process.on('uncaughtException', (err, origin) => {
+  console.log(`${origin} ${err.name} с текстов ${err.message} не была обработана`);
+});
+throw new Error('Ошибка, которую мы пропустили!');

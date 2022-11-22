@@ -1,5 +1,9 @@
 const User = require("../models/user");
 
+const ERROR_CODE_400 = 400; // переданы некорректные данные
+const ERROR_CODE_404 = 404; // карточка или пользователь не найден
+const ERROR_CODE_500 = 500; // ошибка по-умолчанию
+
 const getUsers = (req, res) => {
   User.find()
     .then((users) =>
@@ -11,7 +15,12 @@ const getUsers = (req, res) => {
 const getUserById = (req, res) => {
   User.findById(req.params.userId)
     .then((user) => res.send({ message: "Пользователь получен", data: user }))
-    .catch(() => res.status(500).send({ message: "Произошла ошибка!" }));
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        return res.status(404).send({ message: "Запрашиваемый пользователь не найден" })
+      }
+      return res.status(500).send({ message: "Произошла ошибка!" })
+    });
 };
 
 const createUser = (req, res) => {
