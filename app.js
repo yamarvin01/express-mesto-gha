@@ -36,4 +36,3 @@ app.listen(PORT, () => {
 process.on('uncaughtException', (err, origin) => {
   console.log(`${origin} ${err.name} с текстов ${err.message} не была обработана`);
 });
-throw new Error('Ошибка, которую мы пропустили!');
