@@ -31,7 +31,6 @@ const deleteCardById = (req, res) => {
     });
 };
 
-// $addToSet, чтобы добавить элемент в массив, если его там ещё нет;
 const addCardLikeById = (req, res) => {
   const userId = req.user._id;
   const cardId = req.params.cardId;
@@ -49,7 +48,6 @@ const addCardLikeById = (req, res) => {
     });
 };
 
-// $pull, чтобы убрать
 const deleteCardLikeById = (req, res) => {
   const userId = req.user._id;
   const cardId = req.params.cardId;

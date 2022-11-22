@@ -29,7 +29,6 @@ const createUser = (req, res) => {
           .status(400)
           .send({ message: "Переданы некорректные данные" });
       }
-      // console.log(`ОШИБКА ${err.name} ${err.message}`);
       res.status(500).send({ message: "Произошла ошибка!" });
     });
 };
