@@ -52,8 +52,8 @@ const deleteCardById = (req, res) => {
       }
       if (err.name === "CastError") {
         return res
-          .status(ERROR_CODE_NOTFOUND)
-          .send({ message: `Запрашиваемая карта не найдена` });
+          .status(ERROR_CODE_VALIDATION)
+          .send({ message: `Переданы не корректные данные карты` });
       }
       return setDefaultError(res);
     });
@@ -77,8 +77,8 @@ const addCardLikeById = (req, res) => {
       }
       if (err.name === "CastError") {
         return res
-          .status(ERROR_CODE_NOTFOUND)
-          .send({ message: `Запрашиваемая карта не найдена` });
+          .status(ERROR_CODE_VALIDATION)
+          .send({ message: `Переданы не корректные данные карты` });
       }
       return setDefaultError(res);
     });
@@ -98,8 +98,8 @@ const deleteCardLikeById = (req, res) => {
       }
       if (err.name === "CastError") {
         return res
-          .status(ERROR_CODE_NOTFOUND)
-          .send({ message: `Запрашиваемая карта не найдена` });
+          .status(ERROR_CODE_VALIDATION)
+          .send({ message: `Переданы не корректные данные карты` });
       }
       return setDefaultError(res);
     });
