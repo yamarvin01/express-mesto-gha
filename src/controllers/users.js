@@ -8,7 +8,7 @@ class NotFoundError extends Error {
   constructor(message) {
     super(message);
     this.name = "NotFoundError";
-    this.statusCode = 404;
+    this.statusCode = ERROR_CODE_NOTFOUND;
   }
 }
 
@@ -21,7 +21,7 @@ const setValidationError = (res, err) => {
 const setNotFoundError = (res, err) => {
   res
     .status(ERROR_CODE_NOTFOUND)
-    .send({ message: `Пользователь не найден: ${err.message}` });
+    .send({ message: `${err.message}` });
 };
 
 const setDefaultError = (res) => {
@@ -36,14 +36,15 @@ const getUsers = (req, res) => {
 
 const getUserById = (req, res) => {
   User.findById(req.params.userId)
+    .orFail(() => {
+      throw new NotFoundError('Запрашиваемый пользователь не найден');
+    })
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === "CastError") {
-        console.log(`Ошибка: ${err.name}`);
         return setValidationError(res, err);
       }
-      if (err.name === "AssertionError") {
-        console.log(`Ошибка 2: ${err.name}`);
+      if (err.name === "NotFoundError") {
         return setNotFoundError(res, err);
       }
       return setDefaultError(res);
@@ -70,11 +71,6 @@ const undateProfile = (req, res) => {
     { name: name, about: about },
     { new: true, runValidators: true }
   )
-    //
-    .orFail(() => {
-      throw new NotFoundError('Запрашиваемый пользователь не найден');
-    })
-    //
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === "ValidationError") {
