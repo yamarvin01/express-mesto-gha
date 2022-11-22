@@ -10,6 +10,12 @@ class NotFoundError extends Error {
   }
 }
 
+const setValidationError = (res, err) => {
+  res
+    .status(ERROR_CODE_VALIDATION)
+    .send({ message: `Переданы некорректные данные: ${err.message}` });
+};
+
 const setDefaultError = (res) => {
   return res
     .status(ERROR_CODE_DEFAULT)
@@ -21,5 +27,6 @@ module.exports = {
   ERROR_CODE_NOTFOUND,
   ERROR_CODE_DEFAULT,
   NotFoundError,
+  setValidationError,
   setDefaultError,
 };

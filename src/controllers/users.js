@@ -1,15 +1,9 @@
 const User = require("../models/user");
 const {
-  ERROR_CODE_VALIDATION,
   NotFoundError,
-  setDefaultError
+  setValidationError,
+  setDefaultError,
 } = require("../constants/constants");
-
-const setValidationError = (res, err) => {
-  res
-    .status(ERROR_CODE_VALIDATION)
-    .send({ message: `Переданы некорректные данные: ${err.message}` });
-};
 
 const setNotFoundError = (res, err) => {
   res
