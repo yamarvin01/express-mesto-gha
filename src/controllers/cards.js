@@ -2,6 +2,7 @@ const Card = require("../models/card");
 const {
   ERROR_CODE_VALIDATION,
   NotFoundError,
+  setValidationError,
   setDefaultError,
 } = require("../constants/constants");
 
@@ -24,9 +25,7 @@ const createCard = (req, res) => {
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        return res
-          .status(ERROR_CODE_VALIDATION)
-          .send({ message: `Переданы некорректные данные: ${err.message}` });
+        return setValidationError(res, err);
       }
       return setDefaultError(res);
     });
