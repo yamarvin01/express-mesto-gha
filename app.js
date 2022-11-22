@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const process = require('process');
+const process = require("process");
 const { PORT = 3000 } = process.env;
 const bodyParser = require("body-parser");
 const cardRoutes = require("./src/routes/cards");
@@ -30,11 +30,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", userRoutes);
 app.use("/", cardRoutes);
 app.use((req, res) => {
-  res.status(404).send({ message: 'Страница по указанному маршруту не найдена' });
+  res
+    .status(404)
+    .send({ message: "Страница по указанному маршруту не найдена" });
 });
 
-process.on('uncaughtException', (err, origin) => {
-  console.log(`${origin} ${err.name} с текстов ${err.message} не была обработана!`);
+process.on("uncaughtException", (err, origin) => {
+  console.log(
+    `${origin} ${err.name} с текстов ${err.message} не была обработана!`
+  );
 });
 
 app.listen(PORT, () => {

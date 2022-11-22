@@ -11,9 +11,7 @@ class NotFoundError extends Error {
 }
 
 const setNotFoundError = (res, err) => {
-  return res
-    .status(err.statusCode)
-    .send({ message: `${err.message}` });
+  return res.status(err.statusCode).send({ message: `${err.message}` });
 };
 
 const setValidationError = (res, err) => {
@@ -23,9 +21,7 @@ const setValidationError = (res, err) => {
 };
 
 const setDefaultError = (res) => {
-  return res
-    .status(ERROR_CODE_DEFAULT)
-    .send({ message: "Произошла ошибка" });
+  return res.status(ERROR_CODE_DEFAULT).send({ message: "Произошла ошибка" });
 };
 
 module.exports = {

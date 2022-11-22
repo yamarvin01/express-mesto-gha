@@ -29,11 +29,11 @@ const deleteCardById = (req, res) => {
   const cardId = req.params.cardId;
   Card.findByIdAndRemove(cardId)
     .orFail(() => {
-      throw new NotFoundError('Запрашиваемая карта не найдена');
+      throw new NotFoundError("Запрашиваемая карта не найдена");
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
-      if (err.name === "NotFoundError" ) {
+      if (err.name === "NotFoundError") {
         return setNotFoundError(res, err);
       }
       if (err.name === "CastError") {
@@ -52,11 +52,11 @@ const addCardLikeById = (req, res) => {
     { new: true }
   )
     .orFail(() => {
-      throw new NotFoundError('Запрашиваемая карта не найдена');
+      throw new NotFoundError("Запрашиваемая карта не найдена");
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
-      if (err.name === "NotFoundError" ) {
+      if (err.name === "NotFoundError") {
         return setNotFoundError(res, err);
       }
       if (err.name === "CastError") {
@@ -71,11 +71,11 @@ const deleteCardLikeById = (req, res) => {
   const cardId = req.params.cardId;
   Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true })
     .orFail(() => {
-      throw new NotFoundError('Запрашиваемая карта не найдена');
+      throw new NotFoundError("Запрашиваемая карта не найдена");
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
-      if (err.name === "NotFoundError" ) {
+      if (err.name === "NotFoundError") {
         return setNotFoundError(res, err);
       }
       if (err.name === "CastError") {
