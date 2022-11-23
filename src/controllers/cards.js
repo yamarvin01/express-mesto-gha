@@ -1,10 +1,10 @@
-const Card = require("../models/card");
+const Card = require('../models/card');
 const {
   NotFoundError,
   setNotFoundError,
   setValidationError,
   setDefaultError,
-} = require("../constants/constants");
+} = require('../constants/constants');
 
 const getCards = (req, res) => {
   Card.find()
@@ -18,7 +18,7 @@ const createCard = (req, res) => {
   Card.create({ name, link, owner })
     .then((card) => res.send({ card }))
     .catch((err) => {
-      if (err.name === "ValidationError") {
+      if (err.name === 'ValidationError') {
         return setValidationError(res, err);
       }
       return setDefaultError(res);
@@ -29,14 +29,14 @@ const deleteCardById = (req, res) => {
   const cardId = req.params.cardId;
   Card.findByIdAndRemove(cardId)
     .orFail(() => {
-      throw new NotFoundError("Запрашиваемая карта не найдена");
+      throw new NotFoundError('Запрашиваемая карта не найдена');
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
-      if (err.name === "NotFoundError") {
+      if (err.name === 'NotFoundError') {
         return setNotFoundError(res, err);
       }
-      if (err.name === "CastError") {
+      if (err.name === 'CastError') {
         return setValidationError(res, err);
       }
       return setDefaultError(res);
@@ -46,20 +46,16 @@ const deleteCardById = (req, res) => {
 const addCardLikeById = (req, res) => {
   const userId = req.user._id;
   const cardId = req.params.cardId;
-  Card.findByIdAndUpdate(
-    cardId,
-    { $addToSet: { likes: userId } },
-    { new: true }
-  )
+  Card.findByIdAndUpdate(cardId, { $addToSet: { likes: userId } }, { new: true })
     .orFail(() => {
-      throw new NotFoundError("Запрашиваемая карта не найдена");
+      throw new NotFoundError('Запрашиваемая карта не найдена');
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
-      if (err.name === "NotFoundError") {
+      if (err.name === 'NotFoundError') {
         return setNotFoundError(res, err);
       }
-      if (err.name === "CastError") {
+      if (err.name === 'CastError') {
         return setValidationError(res, err);
       }
       return setDefaultError(res);
@@ -71,14 +67,14 @@ const deleteCardLikeById = (req, res) => {
   const cardId = req.params.cardId;
   Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true })
     .orFail(() => {
-      throw new NotFoundError("Запрашиваемая карта не найдена");
+      throw new NotFoundError('Запрашиваемая карта не найдена');
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
-      if (err.name === "NotFoundError") {
+      if (err.name === 'NotFoundError') {
         return setNotFoundError(res, err);
       }
-      if (err.name === "CastError") {
+      if (err.name === 'CastError') {
         return setValidationError(res, err);
       }
       return setDefaultError(res);

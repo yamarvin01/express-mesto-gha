@@ -5,7 +5,7 @@ const ERROR_CODE_DEFAULT = 500;
 class NotFoundError extends Error {
   constructor(message) {
     super(message);
-    this.name = "NotFoundError";
+    this.name = 'NotFoundError';
     this.statusCode = ERROR_CODE_NOTFOUND;
   }
 }
@@ -21,7 +21,7 @@ const setValidationError = (res, err) => {
 };
 
 const setDefaultError = (res) => {
-  return res.status(ERROR_CODE_DEFAULT).send({ message: "Произошла ошибка" });
+  return res.status(ERROR_CODE_DEFAULT).send({ message: 'Произошла ошибка' });
 };
 
 module.exports = {
