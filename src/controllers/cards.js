@@ -4,6 +4,7 @@ const {
   setNotFoundError,
   setValidationError,
   setDefaultError,
+  setErrorResponse,
 } = require('../constants/constants');
 
 const getCards = (req, res) => {
@@ -17,12 +18,7 @@ const createCard = (req, res) => {
   const owner = req.user._id;
   Card.create({ name, link, owner })
     .then((card) => res.send({ card }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return setValidationError(res, err);
-      }
-      return setDefaultError(res);
-    });
+    .catch((err) => setErrorResponse(res, err));
 };
 
 const deleteCardById = (req, res) => {

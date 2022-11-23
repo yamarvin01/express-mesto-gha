@@ -12,9 +12,7 @@ class NotFoundError extends Error {
 
 const setNotFoundError = (res, err) => res.status(err.statusCode).send({ message: `${err.message}` });
 const setValidationError = (res) => {
-  res
-    .status(ERROR_CODE_VALIDATION)
-    .send({ message: 'Переданы некорректные данные' });
+  res.status(ERROR_CODE_VALIDATION).send({ message: 'Переданы некорректные данные' });
 };
 const setDefaultError = (res) => res.status(ERROR_CODE_DEFAULT).send({ message: 'Произошла ошибка' });
 
