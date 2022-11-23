@@ -1,7 +1,7 @@
 const Card = require('../models/card');
 const { NotFoundError, setErrorResponse } = require('../constants/constants');
 
-const getCards = (res) => {
+const getCards = (req, res) => {
   Card.find()
     .then((cards) => res.send({ cards }))
     .catch((err) => setErrorResponse(res, err));
