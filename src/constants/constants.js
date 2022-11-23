@@ -10,26 +10,17 @@ class NotFoundError extends Error {
   }
 }
 
-const setNotFoundError = (res, err) => res.status(err.statusCode).send({ message: `${err.message}` });
-const setValidationError = (res) => {
-  res.status(ERROR_CODE_VALIDATION).send({ message: 'Переданы некорректные данные' });
-};
-const setDefaultError = (res) => res.status(ERROR_CODE_DEFAULT).send({ message: 'Произошла ошибка' });
-
 const setErrorResponse = (res, err) => {
   if (err.name === 'ValidationError' || err.name === 'CastError') {
-    setValidationError(res, err);
+    return res.status(ERROR_CODE_VALIDATION).send({ message: 'Переданы некорректные данные' });
   }
   if (err.name === 'NotFoundError') {
-    setNotFoundError(res, err);
+    return res.status(err.statusCode).send({ message: `${err.message}` });
   }
-  setDefaultError(res);
+  return res.status(ERROR_CODE_DEFAULT).send({ message: 'Произошла ошибка' });
 };
 
 module.exports = {
   NotFoundError,
-  setNotFoundError,
-  setValidationError,
-  setDefaultError,
   setErrorResponse,
 };
