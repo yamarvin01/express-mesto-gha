@@ -26,7 +26,7 @@ const createCard = (req, res) => {
 };
 
 const deleteCardById = (req, res) => {
-  const cardId = req.params.cardId;
+  const { cardId } = req.params;
   Card.findByIdAndRemove(cardId)
     .orFail(() => {
       throw new NotFoundError('Запрашиваемая карта не найдена');
@@ -45,7 +45,7 @@ const deleteCardById = (req, res) => {
 
 const addCardLikeById = (req, res) => {
   const userId = req.user._id;
-  const cardId = req.params.cardId;
+  const { cardId } = req.params;
   Card.findByIdAndUpdate(cardId, { $addToSet: { likes: userId } }, { new: true })
     .orFail(() => {
       throw new NotFoundError('Запрашиваемая карта не найдена');
@@ -64,7 +64,7 @@ const addCardLikeById = (req, res) => {
 
 const deleteCardLikeById = (req, res) => {
   const userId = req.user._id;
-  const cardId = req.params.cardId;
+  const { cardId } = req.params;
   Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true })
     .orFail(() => {
       throw new NotFoundError('Запрашиваемая карта не найдена');
