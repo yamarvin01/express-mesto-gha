@@ -1,15 +1,13 @@
 const User = require('../models/user');
 const {
   NotFoundError,
-  setNotFoundError,
-  setValidationError,
-  setDefaultError,
+  setErrorResponse,
 } = require('../constants/constants');
 
 const getUsers = (req, res) => {
   User.find()
     .then((users) => res.send({ users }))
-    .catch(() => setDefaultError(res));
+    .catch((err) => setErrorResponse(res, err));
 };
 
 const getUserById = (req, res) => {
@@ -18,27 +16,14 @@ const getUserById = (req, res) => {
       throw new NotFoundError('Запрашиваемый пользователь не найден');
     })
     .then((user) => res.send({ user }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return setValidationError(res, err);
-      }
-      if (err.name === 'NotFoundError') {
-        return setNotFoundError(res, err);
-      }
-      return setDefaultError(res);
-    });
+    .catch((err) => setErrorResponse(res, err));
 };
 
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
     .then((user) => res.send({ user }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return setValidationError(res, err);
-      }
-      return setDefaultError(res);
-    });
+    .catch((err) => setErrorResponse(res, err));
 };
 
 const undateProfile = (req, res) => {
@@ -46,24 +31,14 @@ const undateProfile = (req, res) => {
   const userId = req.user._id;
   User.findByIdAndUpdate(userId, { name, about }, { new: true, runValidators: true })
     .then((user) => res.send({ user }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return setValidationError(res, err);
-      }
-      return setDefaultError(res);
-    });
+    .catch((err) => setErrorResponse(res, err));
 };
 
 const undateAvatar = (req, res) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => res.send({ user }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return setValidationError(res, err);
-      }
-      return setDefaultError(res);
-    });
+    .catch((err) => setErrorResponse(res, err));
 };
 
 module.exports = {
