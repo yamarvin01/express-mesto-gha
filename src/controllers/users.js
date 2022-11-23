@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const { NotFoundError, setErrorResponse } = require('../constants/constants');
 
-const getUsers = (req, res) => {
+const getUsers = (res) => {
   User.find()
     .then((users) => res.send({ users }))
     .catch((err) => setErrorResponse(res, err));
