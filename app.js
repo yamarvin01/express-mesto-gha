@@ -11,9 +11,7 @@ const app = express();
 
 mongoose.connect(
   'mongodb://localhost:27017/mestodb',
-  {
-    useNewUrlParser: true,
-  },
+  { useNewUrlParser: true },
   (err) => {
     if (err) throw err;
     console.log('Connected to MongoDB!');
@@ -22,17 +20,11 @@ mongoose.connect(
 
 // TODO: временное решение авторизации
 app.use((req, res, next) => {
-  req.user = {
-    _id: '637a73f1aa4c15b86afe1d74',
-  };
+  req.user = { _id: '637a73f1aa4c15b86afe1d74' };
   next();
 });
 app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  }),
-);
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', userRoutes);
 app.use('/', cardRoutes);
 app.use((req, res) => {
