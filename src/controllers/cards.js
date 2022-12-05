@@ -17,13 +17,11 @@ const createCard = (req, res) => {
 
 const deleteCardById = (req, res) => {
   const { cardId } = req.params;
-
   Card.findById(cardId)
     .orFail(() => {
       throw new NotFoundError('Запрашиваемая карта не найдена');
     })
     .then((card) => {
-      console.log(card.owner.toString(), req.user._id);
       if (card.owner.toString() !== req.user._id) {
         return res
           .status(403)
