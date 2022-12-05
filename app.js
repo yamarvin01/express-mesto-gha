@@ -7,6 +7,9 @@ const bodyParser = require('body-parser');
 const cardRoutes = require('./src/routes/cards');
 const userRoutes = require('./src/routes/users');
 
+const { login, createUser } = require('./src/controllers/users');
+const auth = require('./src/middlewares/auth');
+
 const app = express();
 
 mongoose.connect(
@@ -23,10 +26,17 @@ app.use((req, res, next) => {
   req.user = { _id: '637a73f1aa4c15b86afe1d74' };
   next();
 });
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post('/signup', createUser);
+app.post('/signin', login);
+
+app.use(auth);
 app.use('/', userRoutes);
 app.use('/', cardRoutes);
+
 app.use((req, res) => {
   res.status(404).send({
     message: 'Страница по указанному маршруту не найдена',
