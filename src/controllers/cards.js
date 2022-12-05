@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const Card = require('../models/card');
 const { NotFoundError, setErrorResponse } = require('../constants/constants');
 
