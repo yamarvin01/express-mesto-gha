@@ -31,6 +31,7 @@ const deleteCardById = (req, res) => {
       card.remove();
     })
     .catch((err) => setErrorResponse(res, err));
+};
 
 const addCardLikeById = (req, res) => {
   const userId = req.user._id;
