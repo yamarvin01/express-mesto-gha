@@ -54,6 +54,10 @@ const undateAvatar = (req, res) => {
     .catch((err) => setErrorResponse(res, err));
 };
 
+// TODO: 6. Создайте контроллер и роут для получения информации о пользователе
+// Реализуйте роут:
+// GET /users/me - возвращает информацию о текущем пользователе
+
 module.exports = {
   login,
   getUsers,
