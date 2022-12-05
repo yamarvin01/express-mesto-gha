@@ -17,13 +17,22 @@ const createCard = (req, res) => {
 
 const deleteCardById = (req, res) => {
   const { cardId } = req.params;
-  Card.findByIdAndRemove(cardId)
+
+  Card.findById(cardId)
     .orFail(() => {
       throw new NotFoundError('Запрашиваемая карта не найдена');
     })
-    .then((card) => res.send({ card }))
+    .then((card) => {
+      console.log(card.owner.toString(), req.user._id);
+      if (card.owner.toString() !== req.user._id) {
+        return res
+          .status(403)
+          .send({ message: 'У вас не достаточно прав' });
+      }
+      res.send({ card });
+      card.remove();
+    })
     .catch((err) => setErrorResponse(res, err));
-};
 
 const addCardLikeById = (req, res) => {
   const userId = req.user._id;
