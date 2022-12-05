@@ -21,12 +21,6 @@ mongoose.connect(
   },
 );
 
-// TODO: временное решение авторизации
-app.use((req, res, next) => {
-  req.user = { _id: '637a73f1aa4c15b86afe1d74' };
-  next();
-});
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
