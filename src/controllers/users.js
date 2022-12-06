@@ -16,8 +16,6 @@ const login = (req, res) => {
     });
 };
 
-// marsel Token
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzhmOGVlYWZhMTUzMDYyODMxYTJkZDQiLCJpYXQiOjE2NzAzNTI4MDUsImV4cCI6MTY3MDk1NzYwNX0.kSgnVIlOo6XuMJCmIcK5YuLuuu3WRZlhCILNXBwfyjs
 const getLoggedInUser = (req, res) => {
   User.findById(req.user._id)
     .orFail(() => {
