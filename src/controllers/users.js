@@ -16,6 +16,17 @@ const login = (req, res) => {
     });
 };
 
+// marsel Token
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzhmOGVlYWZhMTUzMDYyODMxYTJkZDQiLCJpYXQiOjE2NzAzNTI4MDUsImV4cCI6MTY3MDk1NzYwNX0.kSgnVIlOo6XuMJCmIcK5YuLuuu3WRZlhCILNXBwfyjs
+const getLoggedInUser = (req, res) => {
+  User.findById(req.user._id)
+    .orFail(() => {
+      throw new NotFoundError('Запрашиваемый пользователь не найден');
+    })
+    .then((user) => res.send({ user }))
+    .catch((err) => setErrorResponse(res, err));
+};
+
 const getUsers = (req, res) => {
   User.find()
     .then((users) => res.send({ users }))
@@ -54,12 +65,9 @@ const undateAvatar = (req, res) => {
     .catch((err) => setErrorResponse(res, err));
 };
 
-// TODO: 6. Создайте контроллер и роут для получения информации о пользователе
-// Реализуйте роут:
-// GET /users/me - возвращает информацию о текущем пользователе
-
 module.exports = {
   login,
+  getLoggedInUser,
   getUsers,
   getUserById,
   createUser,
