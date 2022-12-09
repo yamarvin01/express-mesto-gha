@@ -14,7 +14,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { NotFoundError, setErrorResponse } = require('../constants/constants');
 
-//
+// Done
 const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
@@ -28,20 +28,20 @@ const login = (req, res, next) => {
     });
 };
 
-//
-const getLoggedInUser = (req, res) => {
+// Done
+const getLoggedInUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
       throw new NotFoundError('Запрашиваемый пользователь не найден');
     })
     .then((user) => res.send({ user }))
-    .catch((err) => setErrorResponse(res, err));
+    .catch(next);
 };
 
-const getUsers = (req, res) => {
+const getUsers = (req, res, next) => {
   User.find()
     .then((users) => res.send({ users }))
-    .catch((err) => setErrorResponse(res, err));
+    .catch(next);
 };
 
 const getUserById = (req, res) => {
