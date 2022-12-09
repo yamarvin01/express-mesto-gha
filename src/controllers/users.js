@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable object-curly-newline */
 
 // "email": "yamarvin01@yandex.ru",
@@ -6,14 +7,15 @@
 
 // "email": "marina@yandex.ru",
 // "password": "M@ssE11ectN07"
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkzMmVkODFkZWVhZjQzOWYxMzkwNjMiLCJpYXQiOjE2NzA1OTAyMTUsImV4cCI6MTY3MTE5NTAxNX0.hVYaPzhEEXWbCgcu5ue210Syzpb1TAUQaAW-U7gdOeI
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkzMmVkODFkZWVhZjQzOWYxMzkwNjMiLCJpYXQiOjE2NzA1OTI0NjgsImV4cCI6MTY3MTE5NzI2OH0.YpXs9CXNKXpV5V9ycGDPBfmjFKqG4-Lf2uXRlIVDB-k
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { NotFoundError, setErrorResponse } = require('../constants/constants');
 
-const login = (req, res) => {
+//
+const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
@@ -21,10 +23,12 @@ const login = (req, res) => {
       res.send({ token });
     })
     .catch((err) => {
-      res.status(401).send({ message: err.message });
+      err.statusCode = 401;
+      next(err);
     });
 };
 
+//
 const getLoggedInUser = (req, res) => {
   User.findById(req.user._id)
     .orFail(() => {
