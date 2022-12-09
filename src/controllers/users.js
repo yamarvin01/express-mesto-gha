@@ -1,4 +1,13 @@
 /* eslint-disable object-curly-newline */
+
+// "email": "yamarvin01@yandex.ru",
+// "password": "M@ssE11ectN07"
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkyZDU5MThhNzI1NjQ5NDVhYmE3NDMiLCJpYXQiOjE2NzA1NjczMTgsImV4cCI6MTY3MTE3MjExOH0.dLN4UmVDF3XmxxADyIdn08e6XRjbtGE1lynWypdcmCs
+
+// "email": "marina@yandex.ru",
+// "password": "M@ssE11ectN07"
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkzMmVkODFkZWVhZjQzOWYxMzkwNjMiLCJpYXQiOjE2NzA1OTAyMTUsImV4cCI6MTY3MTE5NTAxNX0.hVYaPzhEEXWbCgcu5ue210Syzpb1TAUQaAW-U7gdOeI
+
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
