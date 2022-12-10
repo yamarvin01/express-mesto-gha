@@ -3,7 +3,7 @@
 
 // "email": "yamarvin01@yandex.ru",
 // "password": "M@ssE11ectN07"
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkyZDU5MThhNzI1NjQ5NDVhYmE3NDMiLCJpYXQiOjE2NzA1NjczMTgsImV4cCI6MTY3MTE3MjExOH0.dLN4UmVDF3XmxxADyIdn08e6XRjbtGE1lynWypdcmCs
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkyZDU5MThhNzI1NjQ5NDVhYmE3NDMiLCJpYXQiOjE2NzA3MDAyMjYsImV4cCI6MTY3MTMwNTAyNn0.vx08lGVAcTaetCo3YSdjTJJk_TU9947KTH8u5JdX2MU
 
 // "email": "marina@yandex.ru",
 // "password": "M@ssE11ectN07"
@@ -14,7 +14,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { ValidationError, NotFoundError } = require('../constants/constants');
 
-const login = (req, res, next) => {
+const signIn = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
@@ -104,7 +104,7 @@ const undateAvatar = (req, res, next) => {
 };
 
 module.exports = {
-  login,
+  signIn,
   getLoggedInUser,
   getUsers,
   getUserById,

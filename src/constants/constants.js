@@ -14,6 +14,15 @@ class ValidationError extends Error {
   }
 }
 
+class AuthError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'AuthError';
+    this.message = 'Не правильные почта или пароль';
+    this.statusCode = ERROR_CODE_AUTH;
+  }
+}
+
 class NotFoundError extends Error {
   constructor(message) {
     super(message);
@@ -24,6 +33,7 @@ class NotFoundError extends Error {
 }
 
 module.exports = {
+  AuthError,
   ValidationError,
   NotFoundError,
 };
