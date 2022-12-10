@@ -57,7 +57,7 @@ const getUserById = (req, res, next) => {
     .catch(next);
 };
 
-const createUser = (req, res, next) => {
+const signUp = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
   bcrypt.hash(password, 10)
     .then((hash) => User.create({ name, about, avatar, email, password: hash }))
@@ -108,7 +108,7 @@ module.exports = {
   getLoggedInUser,
   getUsers,
   getUserById,
-  createUser,
+  signUp,
   undateProfile,
   undateAvatar,
 };

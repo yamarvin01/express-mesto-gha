@@ -3,7 +3,7 @@
 /* eslint-disable no-useless-escape */
 const router = require('express').Router();
 const { celebrate, errors, Joi } = require('celebrate');
-const { signIn, createUser } = require('../controllers/users');
+const { signIn, signUp } = require('../controllers/users');
 
 router.post('/signup', celebrate({
     body: Joi.object().keys({
@@ -12,7 +12,7 @@ router.post('/signup', celebrate({
         .pattern(/[\w\-\_\.]+@[\w\-\_\.]+\.[\w\-\_\.]+/),
       password: Joi.string().required(),
     }),
-  }), createUser);
+  }), signUp);
 
 router.post('/signin', celebrate({
     body: Joi.object().keys({
