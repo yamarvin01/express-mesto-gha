@@ -4,10 +4,11 @@ const process = require('process');
 
 const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
+
+const authRoutes = require('./src/routes/auth');
 const cardRoutes = require('./src/routes/cards');
 const userRoutes = require('./src/routes/users');
 
-const { login, createUser } = require('./src/controllers/users');
 const auth = require('./src/middlewares/auth');
 
 const app = express();
@@ -24,8 +25,7 @@ mongoose.connect(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/signup', createUser);
-app.post('/signin', login);
+app.use('/', authRoutes);
 
 app.use(auth);
 app.use('/', userRoutes);
