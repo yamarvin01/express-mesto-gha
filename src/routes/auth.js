@@ -11,6 +11,9 @@ router.post(
         .required()
         .pattern(/[\w\-\_\.]+@[\w\-\_\.]+\.[\w\-\_\.]+/),
       password: Joi.string().required(),
+      name: Joi.string().min(2).max(30),
+      about: Joi.string().min(2).max(30),
+      avatar: Joi.string().min(2).max(30).pattern(/https?:\/\/(www\.)?[0-9a-zA-Z\-]+\.[0-9a-zA-Z]+\/*[a-zA-Z0-9\/\-\_\.\+\(\)\[\]~:?#@!$&'*,;=]*#?/),
     }),
   }),
   signUp,
