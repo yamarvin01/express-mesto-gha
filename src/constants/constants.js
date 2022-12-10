@@ -10,7 +10,7 @@ class ValidationError extends Error {
     super(message);
     this.name = 'ValidationError';
     this.message = 'Переданы некорректные данные';
-    this.statusCode = 400;
+    this.statusCode = ERROR_CODE_VALIDATION;
   }
 }
 
@@ -19,7 +19,7 @@ class NotFoundError extends Error {
     super(message);
     this.name = 'NotFoundError';
     this.message = 'Запрашиваемая данные не найдены';
-    this.statusCode = 404;
+    this.statusCode = ERROR_CODE_NOTFOUND;
   }
 }
 

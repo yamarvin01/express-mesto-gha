@@ -83,12 +83,11 @@ const undateProfile = (req, res, next) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        const e = new Error('Переданные данные не корректны');
-        e.statusCode = 400;
-        next(e);
+        throw new ValidationError();
       }
       next(err);
-    });
+    })
+    .catch(next);
 };
 
 const undateAvatar = (req, res, next) => {
@@ -97,12 +96,11 @@ const undateAvatar = (req, res, next) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        const e = new Error('Переданные данные не корректны');
-        e.statusCode = 400;
-        next(e);
+        throw new ValidationError();
       }
       next(err);
-    });
+    })
+    .catch(next);
 };
 
 module.exports = {

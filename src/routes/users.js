@@ -15,18 +15,22 @@ router.get('/users', getUsers);
 
 router.get('/users/:userId', getUserById);
 
-router.patch('/users/me', celebrate({
+router.patch('/users/me',
+celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     about: Joi.string().required().min(2).max(30),
   }),
-}), undateProfile);
+}),
+undateProfile);
 
-router.patch('/users/me/avatar', celebrate({
+router.patch('/users/me/avatar',
+celebrate({
   body: Joi.object().keys({
     avatar: Joi.string().required().pattern(/https?:\/\/(www\.)?[0-9a-zA-Z-]+\.[0-9a-zA-Z]+\/*[a-zA-Z0-9\/\-\_\.\+\(\)\[\]~:?#@!$&'*,;=]*#?/),
   }),
-}), undateAvatar);
+}),
+undateAvatar);
 
 router.use(errors());
 
