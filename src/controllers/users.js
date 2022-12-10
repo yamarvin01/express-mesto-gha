@@ -69,8 +69,14 @@ const createUser = (req, res, next) => {
     .then((hash) => User.create({ name, about, avatar, email, password: hash }))
     .then((user) => res.send({ user }))
     .catch((err) => {
+      console.log(err.name);
       if (err.name === 'Error' || err.name === 'ValidationError') {
         const e = new Error('Переданные данные не корректны');
+        e.statusCode = 400;
+        next(e);
+      }
+      if (err.name === 'MongoServerError') {
+        const e = new Error('Пользователь уже существует');
         e.statusCode = 400;
         next(e);
       }
