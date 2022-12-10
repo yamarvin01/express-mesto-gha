@@ -29,9 +29,6 @@ const login = (req, res, next) => {
 
 const getLoggedInUser = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail(() => {
-      throw new NotFoundError('Запрашиваемый пользователь не найден');
-    })
     .then((user) => res.send({ user }))
     .catch(next);
 };

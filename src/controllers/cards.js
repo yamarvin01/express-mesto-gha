@@ -29,7 +29,7 @@ const deleteCardById = (req, res, next) => {
   const { cardId } = req.params;
   Card.findById(cardId)
     .orFail(() => {
-      throw new NotFoundError('');
+      throw new NotFoundError();
     })
     .then((card) => {
       if (card.owner.toString() !== req.user._id) {
@@ -47,9 +47,7 @@ const deleteCardById = (req, res, next) => {
         next(e);
       }
       if (err.name === 'NotFoundError') {
-        const e = new Error('Запрашиваемая карта не найдена');
-        e.statusCode = 404;
-        next(e);
+        next(err);
       }
       next(err);
     });
@@ -70,9 +68,7 @@ const addCardLikeById = (req, res, next) => {
         next(e);
       }
       if (err.name === 'NotFoundError') {
-        const e = new Error('Запрашиваемая карта не найдена');
-        e.statusCode = 404;
-        next(e);
+        next(err);
       }
       next(err);
     });
@@ -93,9 +89,7 @@ const deleteCardLikeById = (req, res, next) => {
         next(e);
       }
       if (err.name === 'NotFoundError') {
-        const e = new Error('Запрашиваемая карта не найдена');
-        e.statusCode = 404;
-        next(e);
+        next(err);
       }
       next(err);
     });
