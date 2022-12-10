@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 const ERROR_CODE_VALIDATION = 400;
-const ERROR_USER_EXIST = 400;
+const ERROR_USER_EXIST = 409;
 const ERROR_CODE_AUTH = 401;
 const ERROR_CODE_NO_RIGHTS = 403;
 const ERROR_CODE_NOTFOUND = 404;
