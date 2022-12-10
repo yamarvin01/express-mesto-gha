@@ -20,9 +20,9 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
+    select: false,
     minlength: 8,
     required: true,
-    select: false,
   },
   name: {
     type: String,
