@@ -12,9 +12,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { NotFoundError, setErrorResponse } = require('../constants/constants');
+const { NotFoundError } = require('../constants/constants');
 
-// Done
 const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
@@ -28,7 +27,6 @@ const login = (req, res, next) => {
     });
 };
 
-// Done
 const getLoggedInUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
@@ -38,69 +36,75 @@ const getLoggedInUser = (req, res, next) => {
     .catch(next);
 };
 
-// Done
 const getUsers = (req, res, next) => {
   User.find()
     .then((users) => res.send({ users }))
     .catch(next);
 };
 
-// CastError400 NotFoundError404
 const getUserById = (req, res, next) => {
   User.findById(req.params.userId)
     .orFail(() => {
-      throw new NotFoundError('Запрашиваемый пользователь не найден');
+      throw new NotFoundError('');
     })
     .then((user) => res.send({ user }))
-    .catch((e) => {
-      if (e.name === 'CastError') {
-        const err = new Error('Не корректно переданы данные');
-        err.statusCode = 400;
-        next(err);
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        const e = new Error('Переданные данные не корректны');
+        e.statusCode = 400;
+        next(e);
       }
-      if (e.name === 'NotFoundError') {
+      if (err.name === 'NotFoundError') {
+        const e = new Error('Запрашиваемый пользователь не найден');
         e.statusCode = 404;
         next(e);
       }
+      next(err);
     });
 };
 
-// ValidationError400 Error400
 const createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
   bcrypt.hash(password, 10)
     .then((hash) => User.create({ name, about, avatar, email, password: hash }))
     .then((user) => res.send({ user }))
-    .catch((e) => {
-      if (e.name === 'Error' || e.name === 'ValidationError') {
-        const err = new Error('Не корректно переданы данные');
-        err.statusCode = 400;
-        next(err);
+    .catch((err) => {
+      if (err.name === 'Error' || err.name === 'ValidationError') {
+        const e = new Error('Переданные данные не корректны');
+        e.statusCode = 400;
+        next(e);
       }
+      next(err);
     });
 };
 
-// ValidationError400
 const undateProfile = (req, res, next) => {
   const { name, about } = req.body;
   const userId = req.user._id;
   User.findByIdAndUpdate(userId, { name, about }, { new: true, runValidators: true })
     .then((user) => res.send({ user }))
-    .catch((e) => {
-      if (e.name === 'ValidationError') {
-        const err = new Error('Не корректно переданы данные');
-        err.statusCode = 400;
-        next(err);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        const e = new Error('Переданные данные не корректны');
+        e.statusCode = 400;
+        next(e);
       }
+      next(err);
     });
 };
 
-// TODO: не валидируется url
-const undateAvatar = (req, res) => {
+const undateAvatar = (req, res, next) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => res.send({ user }))
-    .catch((err) => setErrorResponse(res, err));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        const e = new Error('Переданные данные не корректны');
+        e.statusCode = 400;
+        next(e);
+      }
+      next(err);
+    });
 };
 
 module.exports = {

@@ -2,15 +2,14 @@
 /* eslint-disable consistent-return */
 
 const Card = require('../models/card');
-const { NotFoundError, setErrorResponse } = require('../constants/constants');
+const { NotFoundError } = require('../constants/constants');
 
-const getCards = (req, res) => {
+const getCards = (req, res, next) => {
   Card.find()
     .then((cards) => res.send({ cards }))
-    .catch((err) => setErrorResponse(res, err));
+    .catch(next);
 };
 
-// ValidationError
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user._id;
@@ -18,78 +17,85 @@ const createCard = (req, res, next) => {
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        err.statusCode = 400;
-        err.message = 'Переданы некорректные данные';
+        const e = new Error('Переданы некорректные данные');
+        e.statusCode = 400;
+        next(e);
       }
       next(err);
     });
 };
 
-// CastError NotFoundError НеДостПрав
 const deleteCardById = (req, res, next) => {
   const { cardId } = req.params;
   Card.findById(cardId)
     .orFail(() => {
-      throw new NotFoundError('Запрашиваемая карта не найдена');
+      throw new NotFoundError('');
     })
     .then((card) => {
       if (card.owner.toString() !== req.user._id) {
-        const err = new Error('У вас не достаточно прав');
-        err.statusCode = 403;
-        next(err);
+        const e = new Error('У вас не достаточно прав');
+        e.statusCode = 403;
+        next(e);
       }
       res.send({ card });
       card.remove();
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        err.statusCode = 400;
-        err.message = 'Переданы некорректные данные';
+        const e = new Error('Переданы не корректные данные');
+        e.statusCode = 400;
+        next(e);
       }
       if (err.name === 'NotFoundError') {
-        err.statusCode = 404;
+        const e = new Error('Запрашиваемая карта не найдена');
+        e.statusCode = 404;
+        next(e);
       }
       next(err);
     });
 };
 
-// CastError NotFoundError
 const addCardLikeById = (req, res, next) => {
   const userId = req.user._id;
   const { cardId } = req.params;
   Card.findByIdAndUpdate(cardId, { $addToSet: { likes: userId } }, { new: true })
     .orFail(() => {
-      throw new NotFoundError('Запрашиваемая карта не найдена');
+      throw new NotFoundError('');
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        err.statusCode = 400;
-        err.message = 'Переданы некорректные данные';
+        const e = new Error('Переданы некорректные данные');
+        e.statusCode = 400;
+        next(e);
       }
       if (err.name === 'NotFoundError') {
-        err.statusCode = 404;
+        const e = new Error('Запрашиваемая карта не найдена');
+        e.statusCode = 404;
+        next(e);
       }
       next(err);
     });
 };
 
-// CastError NotFoundError
 const deleteCardLikeById = (req, res, next) => {
   const userId = req.user._id;
   const { cardId } = req.params;
   Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true })
     .orFail(() => {
-      throw new NotFoundError('Запрашиваемая карта не найдена');
+      throw new NotFoundError('');
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        err.statusCode = 400;
-        err.message = 'Переданы некорректные данные';
+        const e = new Error('Переданы некорректные данные');
+        e.statusCode = 400;
+        next(e);
       }
       if (err.name === 'NotFoundError') {
-        err.statusCode = 404;
+        const e = new Error('Запрашиваемая карта не найдена');
+        e.statusCode = 404;
+        next(e);
       }
       next(err);
     });

@@ -11,17 +11,6 @@ class NotFoundError extends Error {
   }
 }
 
-const setErrorResponse = (res, err) => {
-  if (err.name === 'NotFoundError') {
-    return res.status(ERROR_CODE_NOTFOUND).send({ message: `${err.message}` });
-  }
-  if (err.name === 'ValidationError' || err.name === 'CastError') {
-    return res.status(ERROR_CODE_VALIDATION).send({ message: 'Переданы некорректные данные' });
-  }
-  return res.status(ERROR_CODE_DEFAULT).send({ message: 'Произошла ошибка' });
-};
-
 module.exports = {
   NotFoundError,
-  setErrorResponse,
 };
