@@ -4,6 +4,7 @@ const process = require('process');
 
 const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
+const { ERROR_CODE_DEFAULT, ERROR_CODE_NOTFOUND } = require('./src/constants/constants');
 
 const authRoutes = require('./src/routes/auth');
 const cardRoutes = require('./src/routes/cards');
@@ -32,7 +33,7 @@ app.use('/', userRoutes);
 app.use('/', cardRoutes);
 
 app.use((req, res) => {
-  res.status(404).send({
+  res.status(ERROR_CODE_NOTFOUND).send({
     message: 'Страница по указанному маршруту не найдена',
   });
 });
@@ -42,9 +43,9 @@ process.on('uncaughtException', (err, origin) => {
 });
 
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
+  const { statusCode = ERROR_CODE_DEFAULT, message } = err;
   res.status(statusCode).send({
-    message: statusCode === 500
+    message: statusCode === ERROR_CODE_DEFAULT
       ? 'На сервере произошла ошибка'
       : message,
   });

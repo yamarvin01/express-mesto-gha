@@ -9,23 +9,8 @@
 // "password": "M@ssE11ectN07"
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkzMmVkODFkZWVhZjQzOWYxMzkwNjMiLCJpYXQiOjE2NzA1OTI0NjgsImV4cCI6MTY3MTE5NzI2OH0.YpXs9CXNKXpV5V9ycGDPBfmjFKqG4-Lf2uXRlIVDB-k
 
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { ValidationError, NotFoundError } = require('../constants/constants');
-
-const signIn = (req, res, next) => {
-  const { email, password } = req.body;
-  return User.findUserByCredentials(email, password)
-    .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
-      res.send({ token });
-    })
-    .catch((err) => {
-      err.statusCode = 401;
-      next(err);
-    });
-};
 
 const getLoggedInUser = (req, res, next) => {
   User.findById(req.user._id)
@@ -51,25 +36,6 @@ const getUserById = (req, res, next) => {
       }
       if (err.name === 'NotFoundError') {
         throw new NotFoundError();
-      }
-      next(err);
-    })
-    .catch(next);
-};
-
-const signUp = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
-  bcrypt.hash(password, 10)
-    .then((hash) => User.create({ name, about, avatar, email, password: hash }))
-    .then((user) => res.send({ user }))
-    .catch((err) => {
-      if (err.name === 'Error' || err.name === 'ValidationError') {
-        throw new ValidationError();
-      }
-      if (err.name === 'MongoServerError') {
-        const e = new Error('Пользователь уже существует');
-        e.statusCode = 400;
-        next(e);
       }
       next(err);
     })
@@ -104,11 +70,9 @@ const undateAvatar = (req, res, next) => {
 };
 
 module.exports = {
-  signIn,
   getLoggedInUser,
   getUsers,
   getUserById,
-  signUp,
   undateProfile,
   undateAvatar,
 };

@@ -3,7 +3,7 @@
 /* eslint-disable no-useless-escape */
 const router = require('express').Router();
 const { celebrate, errors, Joi } = require('celebrate');
-const { signIn, signUp } = require('../controllers/users');
+const { signIn, signUp } = require('../controllers/auth');
 
 router.post('/signup', celebrate({
     body: Joi.object().keys({

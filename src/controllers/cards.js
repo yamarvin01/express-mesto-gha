@@ -2,7 +2,7 @@
 /* eslint-disable consistent-return */
 
 const Card = require('../models/card');
-const { ValidationError, NotFoundError } = require('../constants/constants');
+const { ValidationError, NotFoundError, NoRightsError } = require('../constants/constants');
 
 const getCards = (req, res, next) => {
   Card.find()
@@ -32,24 +32,21 @@ const deleteCardById = (req, res, next) => {
     })
     .then((card) => {
       if (card.owner.toString() !== req.user._id) {
-        const e = new Error('У вас не достаточно прав');
-        e.statusCode = 403;
-        next(e);
+        throw new NoRightsError();
       }
       res.send({ card });
       card.remove();
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        const e = new Error('Переданы не корректные данные');
-        e.statusCode = 400;
-        next(e);
+        throw new ValidationError();
       }
       if (err.name === 'NotFoundError') {
         next(err);
       }
       next(err);
-    });
+    })
+    .catch(next);
 };
 
 const addCardLikeById = (req, res, next) => {
