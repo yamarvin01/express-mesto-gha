@@ -1,16 +1,5 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable object-curly-newline */
-
-// "email": "yamarvin01@yandex.ru",
-// "password": "M@ssE11ectN07"
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkyZDU5MThhNzI1NjQ5NDVhYmE3NDMiLCJpYXQiOjE2NzA3MDAyMjYsImV4cCI6MTY3MTMwNTAyNn0.vx08lGVAcTaetCo3YSdjTJJk_TU9947KTH8u5JdX2MU
-
-// "email": "marina@yandex.ru",
-// "password": "M@ssE11ectN07"
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkzMmVkODFkZWVhZjQzOWYxMzkwNjMiLCJpYXQiOjE2NzA1OTI0NjgsImV4cCI6MTY3MTE5NzI2OH0.YpXs9CXNKXpV5V9ycGDPBfmjFKqG4-Lf2uXRlIVDB-k
-
 const User = require('../models/user');
-const { ValidationError, NotFoundError } = require('../constants/constants');
+const { ValidationError, NotFoundError } = require('../errors/errors');
 
 const getLoggedInUser = (req, res, next) => {
   User.findById(req.user._id)

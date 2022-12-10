@@ -1,7 +1,8 @@
+/* eslint-disable object-curly-newline */
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
-const { UserExistError, ValidationError } = require('../constants/constants');
+const { UserExistError, ValidationError } = require('../errors/errors');
 
 const signIn = (req, res, next) => {
   const { email, password } = req.body;

@@ -4,7 +4,7 @@ const process = require('process');
 
 const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
-const { ERROR_CODE_DEFAULT, ERROR_CODE_NOTFOUND } = require('./src/constants/constants');
+const { ERROR_CODE_DEFAULT, ERROR_CODE_NOTFOUND } = require('./src/errors/errors');
 
 const authRoutes = require('./src/routes/auth');
 const cardRoutes = require('./src/routes/cards');

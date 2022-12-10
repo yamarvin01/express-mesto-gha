@@ -1,8 +1,5 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable consistent-return */
-
 const Card = require('../models/card');
-const { ValidationError, NotFoundError, NoRightsError } = require('../constants/constants');
+const { ValidationError, NotFoundError, NoRightsError } = require('../errors/errors');
 
 const getCards = (req, res, next) => {
   Card.find()

@@ -57,6 +57,7 @@ module.exports = {
   NotFoundError,
   UserExistError,
   ValidationError,
+  ERROR_CODE_AUTH,
   ERROR_CODE_DEFAULT,
   ERROR_CODE_NOTFOUND,
 };
