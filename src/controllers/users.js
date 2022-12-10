@@ -12,7 +12,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { NotFoundError } = require('../constants/constants');
+const { ValidationError, NotFoundError } = require('../constants/constants');
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
@@ -42,22 +42,19 @@ const getUsers = (req, res, next) => {
 const getUserById = (req, res, next) => {
   User.findById(req.params.userId)
     .orFail(() => {
-      throw new NotFoundError('');
+      throw new NotFoundError();
     })
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        const e = new Error('Переданные данные не корректны');
-        e.statusCode = 400;
-        next(e);
+        throw new ValidationError();
       }
       if (err.name === 'NotFoundError') {
-        const e = new Error('Запрашиваемый пользователь не найден');
-        e.statusCode = 404;
-        next(e);
+        throw new NotFoundError();
       }
       next(err);
-    });
+    })
+    .catch(next);
 };
 
 const createUser = (req, res, next) => {
@@ -66,11 +63,8 @@ const createUser = (req, res, next) => {
     .then((hash) => User.create({ name, about, avatar, email, password: hash }))
     .then((user) => res.send({ user }))
     .catch((err) => {
-      console.log(err.name);
       if (err.name === 'Error' || err.name === 'ValidationError') {
-        const e = new Error('Переданные данные не корректны');
-        e.statusCode = 400;
-        next(e);
+        throw new ValidationError();
       }
       if (err.name === 'MongoServerError') {
         const e = new Error('Пользователь уже существует');
@@ -78,7 +72,8 @@ const createUser = (req, res, next) => {
         next(e);
       }
       next(err);
-    });
+    })
+    .catch(next);
 };
 
 const undateProfile = (req, res, next) => {
