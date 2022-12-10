@@ -2,7 +2,7 @@
 /* eslint-disable consistent-return */
 
 const Card = require('../models/card');
-const { NotFoundError } = require('../constants/constants');
+const { ValidationError, NotFoundError } = require('../constants/constants');
 
 const getCards = (req, res, next) => {
   Card.find()
@@ -17,12 +17,11 @@ const createCard = (req, res, next) => {
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        const e = new Error('Переданы некорректные данные');
-        e.statusCode = 400;
-        next(e);
+        throw new ValidationError();
       }
       next(err);
-    });
+    })
+    .catch(next);
 };
 
 const deleteCardById = (req, res, next) => {
@@ -58,20 +57,19 @@ const addCardLikeById = (req, res, next) => {
   const { cardId } = req.params;
   Card.findByIdAndUpdate(cardId, { $addToSet: { likes: userId } }, { new: true })
     .orFail(() => {
-      throw new NotFoundError('');
+      throw new NotFoundError();
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        const e = new Error('Переданы некорректные данные');
-        e.statusCode = 400;
-        next(e);
+        throw new ValidationError();
       }
       if (err.name === 'NotFoundError') {
         next(err);
       }
       next(err);
-    });
+    })
+    .catch(next);
 };
 
 const deleteCardLikeById = (req, res, next) => {
@@ -79,20 +77,19 @@ const deleteCardLikeById = (req, res, next) => {
   const { cardId } = req.params;
   Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true })
     .orFail(() => {
-      throw new NotFoundError('');
+      throw new NotFoundError();
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        const e = new Error('Переданы некорректные данные');
-        e.statusCode = 400;
-        next(e);
+        throw new ValidationError();
       }
       if (err.name === 'NotFoundError') {
         next(err);
       }
       next(err);
-    });
+    })
+    .catch(next);
 };
 
 module.exports = {
