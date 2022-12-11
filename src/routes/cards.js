@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 const router = require('express').Router();
-const { celebrate, errors, Joi } = require('celebrate');
+const { celebrate, Joi } = require('celebrate');
 const {
   getCards,
   createCard,
@@ -37,7 +37,5 @@ router.delete('/cards/:cardId/likes', celebrate({
     cardId: Joi.string().length(24).hex().required(),
   }),
 }), deleteCardLikeById);
-
-router.use(errors());
 
 module.exports = router;
