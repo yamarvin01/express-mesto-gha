@@ -7,13 +7,11 @@ router.post(
   '/signup',
   celebrate({
     body: Joi.object().keys({
-      email: Joi.string()
-        .required()
-        .pattern(/[\w\-\_\.]+@[\w\-\_\.]+\.[\w\-\_\.]+/),
+      email: Joi.string().required().pattern(/[\w\-\_\.]+@[\w\-\_\.]+\.[\w\-\_\.]+/),
       password: Joi.string().required(),
       name: Joi.string().min(2).max(30),
       about: Joi.string().min(2).max(30),
-      avatar: Joi.string().min(2).max(30).pattern(/https?:\/\/(www\.)?[\w\-]+\.[\w\-]+\/*[\w\-\/\.\+\(\)\[\]~:?#@!$&'*,;=]*#?/),
+      avatar: Joi.string().pattern(/https?:\/\/(www\.)?[\w\-]+\.[\w\-]+\/*[\w\-\/\.\+\(\)\[\]~:?#@!$&'*,;=]*#?/),
     }),
   }),
   signUp,
@@ -23,9 +21,7 @@ router.post(
   '/signin',
   celebrate({
     body: Joi.object().keys({
-      email: Joi.string()
-        .required()
-        .pattern(/[\w\-\_\.]+@[\w\-\_\.]+\.[\w\-\_\.]+/),
+      email: Joi.string().required().pattern(/[\w\-\_\.]+@[\w\-\_\.]+\.[\w\-\_\.]+/),
       password: Joi.string().required(),
     }),
   }),
