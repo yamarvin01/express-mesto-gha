@@ -5,9 +5,8 @@ const process = require('process');
 const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-// const { ERROR_CODE_DEFAULT } = require('./src/errors/defaultError');
 const { NotFoundError } = require('./src/errors/notFoundError');
-const { handleErrors } = require('./src/errors/handleErrors');
+const { handleErrors, handleUncaughtException } = require('./src/errors/handleErrors');
 
 const authRoutes = require('./src/routes/auth');
 const cardRoutes = require('./src/routes/cards');
@@ -32,14 +31,8 @@ app.use('/', authRoutes);
 app.use(auth);
 app.use('/', userRoutes);
 app.use('/', cardRoutes);
-app.use(() => {
-  throw new NotFoundError('Страница по указанному маршруту не найдена');
-});
-
-process.on('uncaughtException', (err, origin) => {
-  console.log(`${origin} ${err.name} с текстов ${err.message} не была обработана!`);
-});
-
+app.use(() => { throw new NotFoundError('Страница по указанному маршруту не найдена'); });
+process.on('uncaughtException', handleUncaughtException);
 app.use(errors());
 app.use(handleErrors);
 
