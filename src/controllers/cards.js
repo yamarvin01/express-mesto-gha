@@ -39,9 +39,6 @@ const deleteCardById = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new ValidationError());
-      }
-      if (err.name === 'NotFoundError') {
-        next(err);
       } else {
         next(err);
       }
@@ -59,9 +56,6 @@ const addCardLikeById = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new ValidationError());
-      }
-      if (err.name === 'NotFoundError') {
-        next(err);
       } else {
         next(err);
       }
@@ -79,9 +73,6 @@ const deleteCardLikeById = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new ValidationError());
-      }
-      if (err.name === 'NotFoundError') {
-        next(err);
       } else {
         next(err);
       }

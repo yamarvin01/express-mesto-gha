@@ -23,9 +23,6 @@ const getUserById = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new ValidationError());
-      }
-      if (err.name === 'NotFoundError') {
-        next(new NotFoundError('Пользователь не найден'));
       } else {
         next(err);
       }
