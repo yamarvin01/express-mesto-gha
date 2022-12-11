@@ -22,14 +22,14 @@ const getUserById = (req, res, next) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        throw new ValidationError();
+        next(new ValidationError());
       }
       if (err.name === 'NotFoundError') {
-        throw new NotFoundError('Пользователь не найден');
+        next(new NotFoundError('Пользователь не найден'));
+      } else {
+        next(err);
       }
-      next(err);
-    })
-    .catch(next);
+    });
 };
 
 const undateProfile = (req, res, next) => {
