@@ -25,7 +25,7 @@ const getUserById = (req, res, next) => {
         throw new ValidationError();
       }
       if (err.name === 'NotFoundError') {
-        throw new NotFoundError();
+        throw new NotFoundError('Пользователь не найден');
       }
       next(err);
     })
