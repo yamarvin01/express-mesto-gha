@@ -1,7 +1,6 @@
 /* eslint-disable max-classes-per-file */
 const ERROR_CODE_NOTFOUND = 404;
 const ERROR_CODE_PAGENOTFOUND = 404;
-const ERROR_USER_EXIST = 409;
 const ERROR_CODE_DEFAULT = 500;
 
 class NotFoundError extends Error {
@@ -22,19 +21,9 @@ class PageNotFoundError extends Error {
   }
 }
 
-class UserExistError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = 'UserExistError';
-    this.message = 'Пользователь уже существует';
-    this.statusCode = ERROR_USER_EXIST;
-  }
-}
-
 module.exports = {
   NotFoundError,
   PageNotFoundError,
-  UserExistError,
   ERROR_CODE_DEFAULT,
   ERROR_CODE_NOTFOUND,
 };

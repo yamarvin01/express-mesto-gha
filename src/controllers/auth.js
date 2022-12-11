@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
-const { UserExistError } = require('../errors/errors');
+const { UserExistError } = require('../errors/userExistError');
 const { ValidationError } = require('../errors/validationError');
 
 const signIn = (req, res, next) => {
