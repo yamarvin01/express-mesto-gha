@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const express = require('express');
 const mongoose = require('mongoose');
 const process = require('process');
@@ -34,7 +33,7 @@ app.use(auth);
 app.use('/', userRoutes);
 app.use('/', cardRoutes);
 
-app.use((req, res) => {
+app.use(() => {
   throw new PageNotFoundError();
 });
 
