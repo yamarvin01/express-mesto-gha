@@ -1,5 +1,4 @@
 /* eslint-disable max-classes-per-file */
-const ERROR_CODE_VALIDATION = 400;
 const ERROR_CODE_NOTFOUND = 404;
 const ERROR_CODE_PAGENOTFOUND = 404;
 const ERROR_USER_EXIST = 409;
@@ -32,20 +31,10 @@ class UserExistError extends Error {
   }
 }
 
-class ValidationError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = 'ValidationError';
-    this.message = 'Переданы некорректные данные';
-    this.statusCode = ERROR_CODE_VALIDATION;
-  }
-}
-
 module.exports = {
   NotFoundError,
   PageNotFoundError,
   UserExistError,
-  ValidationError,
   ERROR_CODE_DEFAULT,
   ERROR_CODE_NOTFOUND,
 };
