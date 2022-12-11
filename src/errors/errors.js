@@ -3,6 +3,7 @@ const ERROR_CODE_VALIDATION = 400;
 const ERROR_CODE_AUTH = 401;
 const ERROR_CODE_NO_RIGHTS = 403;
 const ERROR_CODE_NOTFOUND = 404;
+const ERROR_CODE_PAGENOTFOUND = 404;
 const ERROR_USER_EXIST = 409;
 const ERROR_CODE_DEFAULT = 500;
 
@@ -33,6 +34,15 @@ class NotFoundError extends Error {
   }
 }
 
+class PageNotFoundError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'PageNotFoundError';
+    this.message = 'Страница по указанному маршруту не найдена';
+    this.statusCode = ERROR_CODE_PAGENOTFOUND;
+  }
+}
+
 class UserExistError extends Error {
   constructor(message) {
     super(message);
@@ -55,6 +65,7 @@ module.exports = {
   AuthError,
   NoRightsError,
   NotFoundError,
+  PageNotFoundError,
   UserExistError,
   ValidationError,
   ERROR_CODE_AUTH,
