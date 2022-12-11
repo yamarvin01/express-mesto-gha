@@ -38,14 +38,14 @@ const deleteCardById = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        throw new ValidationError();
+        next(new ValidationError());
       }
       if (err.name === 'NotFoundError') {
         next(err);
+      } else {
+        next(err);
       }
-      next(err);
-    })
-    .catch(next);
+    });
 };
 
 const addCardLikeById = (req, res, next) => {
