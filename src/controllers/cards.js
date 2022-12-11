@@ -34,7 +34,7 @@ const deleteCardById = (req, res, next) => {
         throw new NoRightsError();
       }
       return card.remove()
-        .then(() => res.send({ message: 'Карточка удалена' }));
+        .then(() => res.send({ message: 'Карточка удалена', card }));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
