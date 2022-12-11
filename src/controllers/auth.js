@@ -23,7 +23,8 @@ const signUp = (req, res, next) => {
       User.findOne({ email })
         .then((user) => {
           res.send(user);
-        });
+        })
+        .catch(next);
     })
     .catch((err) => {
       if (err.name === 'Error' || err.name === 'ValidationError') {
