@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const { ERROR_CODE_DEFAULT } = require('./src/errors/defaultError');
 const { NotFoundError } = require('./src/errors/notFoundError');
+const { handleErrors } = require('./src/errors/handleErrors');
 
 const authRoutes = require('./src/routes/auth');
 const cardRoutes = require('./src/routes/cards');
@@ -40,14 +41,6 @@ process.on('uncaughtException', (err, origin) => {
 });
 
 app.use(errors());
-app.use((err, req, res, next) => {
-  const { statusCode = ERROR_CODE_DEFAULT, message } = err;
-  res.status(statusCode).send({
-    message: statusCode === ERROR_CODE_DEFAULT
-      ? 'На сервере произошла ошибка'
-      : message,
-  });
-  next();
-});
+app.use(handleErrors);
 
 app.listen(PORT);
