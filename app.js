@@ -5,7 +5,7 @@ const process = require('process');
 const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const { ERROR_CODE_DEFAULT } = require('./src/errors/defaultError');
+// const { ERROR_CODE_DEFAULT } = require('./src/errors/defaultError');
 const { NotFoundError } = require('./src/errors/notFoundError');
 const { handleErrors } = require('./src/errors/handleErrors');
 
