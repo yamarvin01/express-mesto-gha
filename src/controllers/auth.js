@@ -19,7 +19,12 @@ const signUp = (req, res, next) => {
   bcrypt
     .hash(password, 10)
     .then((hash) => User.create({ name, about, avatar, email, password: hash }))
-    .then((user) => res.send({ user }))
+    .then(() => {
+      User.findOne({ email })
+        .then((user) => {
+          res.send(user);
+        });
+    })
     .catch((err) => {
       if (err.name === 'Error' || err.name === 'ValidationError') {
         throw new ValidationError();
