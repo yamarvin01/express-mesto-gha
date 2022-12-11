@@ -3,7 +3,7 @@ const router = require('express').Router();
 const { celebrate, errors, Joi } = require('celebrate');
 const { signIn, signUp } = require('../controllers/auth');
 
-const emailRegExp = '/[\w\-\_\.]+@[\w\-\_\.]+\.[\w\-\_\.]+/';
+const emailRegExp = /[\w\-\_\.]+@[\w\-\_\.]+\.[\w\-\_\.]+/;
 
 router.post(
   '/signup',
