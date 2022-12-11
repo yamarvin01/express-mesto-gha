@@ -52,11 +52,11 @@ const undateAvatar = (req, res, next) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new ValidationError();
+        next(new ValidationError());
+      } else {
+        next(err);
       }
-      next(err);
-    })
-    .catch(next);
+    });
 };
 
 module.exports = {
