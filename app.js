@@ -6,7 +6,7 @@ const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const { ERROR_CODE_DEFAULT } = require('./src/errors/defaultError');
-const { FoundError } = require('./src/errors/notFoundError');
+const { notFoundError } = require('./src/errors/notFoundError');
 
 const authRoutes = require('./src/routes/auth');
 const cardRoutes = require('./src/routes/cards');
