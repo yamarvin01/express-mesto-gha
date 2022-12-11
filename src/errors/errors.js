@@ -1,19 +1,9 @@
 /* eslint-disable max-classes-per-file */
 const ERROR_CODE_VALIDATION = 400;
-const ERROR_CODE_NO_RIGHTS = 403;
 const ERROR_CODE_NOTFOUND = 404;
 const ERROR_CODE_PAGENOTFOUND = 404;
 const ERROR_USER_EXIST = 409;
 const ERROR_CODE_DEFAULT = 500;
-
-class NoRightsError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = 'NoRightsError';
-    this.message = 'У вас не достаточно прав';
-    this.statusCode = ERROR_CODE_NO_RIGHTS;
-  }
-}
 
 class NotFoundError extends Error {
   constructor(message) {
@@ -52,7 +42,6 @@ class ValidationError extends Error {
 }
 
 module.exports = {
-  NoRightsError,
   NotFoundError,
   PageNotFoundError,
   UserExistError,
