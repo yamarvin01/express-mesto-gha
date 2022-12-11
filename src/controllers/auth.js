@@ -40,7 +40,7 @@ const signUp = (req, res, next) => {
       });
     })
     .catch((err) => {
-      if (err.name === 'Error' || err.name === 'ValidationError') {
+      if (err.name === 'ValidationError') {
         next(new ValidationError());
       }
       if (err.name === 'MongoServerError') {
