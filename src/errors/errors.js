@@ -12,6 +12,5 @@ class NotFoundError extends Error {
 
 module.exports = {
   NotFoundError,
-  ERROR_CODE_DEFAULT,
   ERROR_CODE_NOTFOUND,
 };
