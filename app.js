@@ -6,7 +6,7 @@ const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const { ERROR_CODE_DEFAULT } = require('./src/errors/defaultError');
-const { PageNotFoundError } = require('./src/errors/pageNotFoundError');
+const { FoundError } = require('./src/errors/notFoundError');
 
 const authRoutes = require('./src/routes/auth');
 const cardRoutes = require('./src/routes/cards');
@@ -27,15 +27,12 @@ mongoose.connect(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use('/', authRoutes);
-
 app.use(auth);
 app.use('/', userRoutes);
 app.use('/', cardRoutes);
-
 app.use(() => {
-  throw new PageNotFoundError();
+  throw new FoundError('Страница по указанному маршруту не найдена');
 });
 
 process.on('uncaughtException', (err, origin) => {
