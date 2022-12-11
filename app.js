@@ -1,6 +1,6 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const process = require('process');
+const mongoose = require('mongoose');
 
 const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
@@ -11,7 +11,6 @@ const { handleErrors, handleUncaughtException } = require('./src/errors/handleEr
 const authRoutes = require('./src/routes/auth');
 const cardRoutes = require('./src/routes/cards');
 const userRoutes = require('./src/routes/users');
-
 const auth = require('./src/middlewares/auth');
 
 const app = express();
