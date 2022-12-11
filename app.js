@@ -6,7 +6,7 @@ const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const { ERROR_CODE_DEFAULT } = require('./src/errors/defaultError');
-const { notFoundError } = require('./src/errors/notFoundError');
+const { NotFoundError } = require('./src/errors/notFoundError');
 
 const authRoutes = require('./src/routes/auth');
 const cardRoutes = require('./src/routes/cards');
@@ -32,7 +32,7 @@ app.use(auth);
 app.use('/', userRoutes);
 app.use('/', cardRoutes);
 app.use(() => {
-  throw new FoundError('Страница по указанному маршруту не найдена');
+  throw new NotFoundError('Страница по указанному маршруту не найдена');
 });
 
 process.on('uncaughtException', (err, origin) => {
