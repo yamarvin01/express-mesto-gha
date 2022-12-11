@@ -21,7 +21,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     select: false,
-    minlength: 8,
     required: true,
   },
   name: {
@@ -52,12 +51,12 @@ userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new AuthError());
+        return Promise.reject(new AuthError('Не правильные почта или пароль'));
       }
       return bcrypt.compare(password, user.password)
         .then((match) => {
           if (!match) {
-            return Promise.reject(new AuthError());
+            return Promise.reject(new AuthError('Не правильные почта или пароль'));
           }
           return user;
         });

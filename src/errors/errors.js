@@ -11,7 +11,6 @@ class AuthError extends Error {
   constructor(message) {
     super(message);
     this.name = 'AuthError';
-    this.message = 'Не правильные почта или пароль';
     this.statusCode = ERROR_CODE_AUTH;
   }
 }
