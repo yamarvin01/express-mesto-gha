@@ -4,6 +4,7 @@ const process = require('process');
 
 const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
+const { errors } = require('celebrate');
 const { ERROR_CODE_DEFAULT } = require('./src/errors/defaultError');
 const { PageNotFoundError } = require('./src/errors/pageNotFoundError');
 
@@ -41,6 +42,7 @@ process.on('uncaughtException', (err, origin) => {
   console.log(`${origin} ${err.name} с текстов ${err.message} не была обработана!`);
 });
 
+app.use(errors());
 app.use((err, req, res, next) => {
   const { statusCode = ERROR_CODE_DEFAULT, message } = err;
   res.status(statusCode).send({

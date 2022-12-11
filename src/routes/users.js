@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 const router = require('express').Router();
-const { celebrate, errors, Joi } = require('celebrate');
+const { celebrate, Joi } = require('celebrate');
 const {
   getLoggedInUser,
   getUsers,
@@ -33,7 +33,5 @@ router.patch('/users/me/avatar', celebrate({
     avatar: Joi.string().required().pattern(urlRegExp),
   }),
 }), undateAvatar);
-
-router.use(errors());
 
 module.exports = router;
