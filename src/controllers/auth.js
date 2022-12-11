@@ -29,14 +29,14 @@ const signUp = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'Error' || err.name === 'ValidationError') {
-        throw new ValidationError();
+        next(new ValidationError());
       }
       if (err.name === 'MongoServerError') {
-        throw new UserExistError();
+        next(new UserExistError());
+      } else {
+        next(err);
       }
-      next(err);
-    })
-    .catch(next);
+    });
 };
 
 module.exports = {
