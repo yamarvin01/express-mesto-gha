@@ -5,7 +5,7 @@ const process = require('process');
 
 const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
-const { ERROR_CODE_DEFAULT } = require('./src/errors/errors');
+const { ERROR_CODE_DEFAULT } = require('./src/errors/defaultError');
 const { PageNotFoundError } = require('./src/errors/pageNotFoundError');
 
 const authRoutes = require('./src/routes/auth');
