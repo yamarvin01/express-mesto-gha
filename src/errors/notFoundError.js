@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 const ERROR_CODE_NOTFOUND = 404;
 
 class NotFoundError extends Error {
@@ -12,5 +11,4 @@ class NotFoundError extends Error {
 
 module.exports = {
   NotFoundError,
-  ERROR_CODE_NOTFOUND,
 };

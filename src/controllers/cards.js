@@ -1,5 +1,5 @@
 const Card = require('../models/card');
-const { NotFoundError } = require('../errors/errors');
+const { NotFoundError } = require('../errors/notFoundError');
 const { NoRightsError } = require('../errors/noRightsError');
 const { ValidationError } = require('../errors/validationError');
 

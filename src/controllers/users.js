@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const { NotFoundError } = require('../errors/errors');
+const { NotFoundError } = require('../errors/notFoundError');
 const { ValidationError } = require('../errors/validationError');
 
 const getLoggedInUser = (req, res, next) => {
