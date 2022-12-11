@@ -21,11 +21,7 @@ const signUp = (req, res, next) => {
     .hash(password, 10)
     .then((hash) => User.create({ name, about, avatar, email, password: hash }))
     .then(() => {
-      User.findOne({ email })
-        .then((user) => {
-          res.send(user);
-        })
-        .catch(next);
+      res.send({ name, about, avatar, email });
     })
     .catch((err) => {
       if (err.name === 'Error' || err.name === 'ValidationError') {
