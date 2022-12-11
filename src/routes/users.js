@@ -13,32 +13,24 @@ router.get('/users/me', getLoggedInUser);
 
 router.get('/users', getUsers);
 
-router.get('/users/:userId', getUserById);
-
-router.patch(
-  '/users/me',
-  celebrate({
-    body: Joi.object().keys({
-      name: Joi.string().required().min(2).max(30),
-      about: Joi.string().required().min(2).max(30),
-    }),
+router.get('/users/:userId', celebrate({
+  params: Joi.object().keys({
+    userId: Joi.string().alphanum().length(24),
   }),
-  undateProfile,
-);
+}), getUserById);
 
-router.patch(
-  '/users/me/avatar',
-  celebrate({
-    body: Joi.object().keys({
-      avatar: Joi.string()
-        .required()
-        .pattern(
-          /https?:\/\/(www\.)?[\w\-]+\.[\w\-]+\/*[\w\-\/\.\+\(\)\[\]~:?#@!$&'*,;=]*#?/,
-        ),
-    }),
+router.patch('/users/me', celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().required().min(2).max(30),
+    about: Joi.string().required().min(2).max(30),
   }),
-  undateAvatar,
-);
+}), undateProfile);
+
+router.patch('/users/me/avatar', celebrate({
+  body: Joi.object().keys({
+    avatar: Joi.string().required().pattern(/https?:\/\/(www\.)?[\w\-]+\.[\w\-]+\/*[\w\-\/\.\+\(\)\[\]~:?#@!$&'*,;=]*#?/),
+  }),
+}), undateAvatar);
 
 router.use(errors());
 
