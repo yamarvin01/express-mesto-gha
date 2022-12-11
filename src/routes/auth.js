@@ -4,6 +4,7 @@ const { celebrate, errors, Joi } = require('celebrate');
 const { signIn, signUp } = require('../controllers/auth');
 
 const emailRegExp = /[\w\-\_\.]+@[\w\-\_\.]+\.[\w\-\_\.]+/;
+const urlRegExp = /https?:\/\/(www\.)?[\w\-]+\.[\w\-]+\/*[\w\-\/\.\+\(\)\[\]~:?#@!$&'*,;=]*#?/;
 
 router.post(
   '/signup',
@@ -13,7 +14,7 @@ router.post(
       password: Joi.string().required(),
       name: Joi.string().min(2).max(30),
       about: Joi.string().min(2).max(30),
-      avatar: Joi.string().pattern(/https?:\/\/(www\.)?[\w\-]+\.[\w\-]+\/*[\w\-\/\.\+\(\)\[\]~:?#@!$&'*,;=]*#?/),
+      avatar: Joi.string().pattern(urlRegExp),
     }),
   }),
   signUp,

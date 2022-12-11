@@ -9,6 +9,8 @@ const {
   undateAvatar,
 } = require('../controllers/users');
 
+const urlRegExp = /https?:\/\/(www\.)?[\w\-]+\.[\w\-]+\/*[\w\-\/\.\+\(\)\[\]~:?#@!$&'*,;=]*#?/;
+
 router.get('/users/me', getLoggedInUser);
 
 router.get('/users', getUsers);
@@ -28,7 +30,7 @@ router.patch('/users/me', celebrate({
 
 router.patch('/users/me/avatar', celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().required().pattern(/https?:\/\/(www\.)?[\w\-]+\.[\w\-]+\/*[\w\-\/\.\+\(\)\[\]~:?#@!$&'*,;=]*#?/),
+    avatar: Joi.string().required().pattern(urlRegExp),
   }),
 }), undateAvatar);
 
