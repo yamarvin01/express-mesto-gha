@@ -4,7 +4,6 @@ class NotFoundError extends Error {
   constructor(message) {
     super(message);
     this.name = 'NotFoundError';
-    this.message = 'Запрашиваемые данные не найдены';
     this.statusCode = ERROR_CODE_NOTFOUND;
   }
 }

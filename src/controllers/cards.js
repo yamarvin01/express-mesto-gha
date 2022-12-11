@@ -1,6 +1,6 @@
 const Card = require('../models/card');
-const { NotFoundError } = require('../errors/notFoundError');
 const { NoRightsError } = require('../errors/noRightsError');
+const { NotFoundError } = require('../errors/notFoundError');
 const { ValidationError } = require('../errors/validationError');
 
 const getCards = (req, res, next) => {
@@ -27,7 +27,7 @@ const deleteCardById = (req, res, next) => {
   const { cardId } = req.params;
   Card.findById(cardId)
     .orFail(() => {
-      throw new NotFoundError();
+      throw new NotFoundError('Карта не найдена');
     })
     .then((card) => {
       if (card.owner.toString() !== req.user._id) {
@@ -53,7 +53,7 @@ const addCardLikeById = (req, res, next) => {
   const { cardId } = req.params;
   Card.findByIdAndUpdate(cardId, { $addToSet: { likes: userId } }, { new: true })
     .orFail(() => {
-      throw new NotFoundError();
+      throw new NotFoundError('Карта не найдена');
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
@@ -73,7 +73,7 @@ const deleteCardLikeById = (req, res, next) => {
   const { cardId } = req.params;
   Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true })
     .orFail(() => {
-      throw new NotFoundError();
+      throw new NotFoundError('Карта не найдена');
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
