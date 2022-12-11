@@ -16,11 +16,11 @@ const createCard = (req, res, next) => {
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new ValidationError();
+        next(new ValidationError());
+      } else {
+        next(err);
       }
-      next(err);
-    })
-    .catch(next);
+    });
 };
 
 const deleteCardById = (req, res, next) => {
