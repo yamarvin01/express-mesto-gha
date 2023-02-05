@@ -13,6 +13,8 @@ const cardRoutes = require('./src/routes/cards');
 const userRoutes = require('./src/routes/users');
 const auth = require('./src/middlewares/auth');
 
+const { requestLogger, errorLogger } = require('./src/middlewares/logger');
+
 const app = express();
 
 mongoose.connect(
@@ -26,10 +28,12 @@ mongoose.connect(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(requestLogger);
 app.use('/', authRoutes);
 app.use(auth);
 app.use('/', userRoutes);
 app.use('/', cardRoutes);
+app.use(errorLogger);
 app.use(() => { throw new NotFoundError('Страница по указанному маршруту не найдена'); });
 process.on('uncaughtException', handleUncaughtException);
 app.use(errors());
