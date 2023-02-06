@@ -3,10 +3,11 @@ const allowedCors = [
   'https://praktikum.tk',
   'http://praktikum.tk',
   'localhost:3000',
-  'yamarvin01.nomoredomains.club',
-  'www.yamarvin01.nomoredomains.club',
+  'localhost:4000',
   'http://yamarvin01.nomoredomains.club',
   'https://yamarvin01.nomoredomains.club',
+  'yamarvin01.nomoredomains.club',
+  'www.yamarvin01.nomoredomains.club',
 ];
 
 const cors = (req, res, next) => {
@@ -14,7 +15,7 @@ const cors = (req, res, next) => {
   const { origin } = req.headers;
   // проверяем, что источник запроса есть среди разрешённых
   if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', origin);
   }
 
   // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
