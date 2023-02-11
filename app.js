@@ -2,7 +2,7 @@ const express = require('express');
 const process = require('process');
 const mongoose = require('mongoose');
 
-const { PORT = 4000 } = process.env;
+const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const { NotFoundError } = require('./src/errors/notFoundError');
